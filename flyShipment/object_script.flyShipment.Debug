@@ -9,6 +9,7 @@ INPUT(
 ./debug\polygon.o
 ./debug\dialogmodel.o
 ./debug\dialogship.o
+./debug\manager.o
 ./debug\moc_mainwindow.o
 ./debug\moc_dialogmodel.o
 ./debug\moc_dialogship.o

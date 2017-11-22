@@ -19,9 +19,9 @@ public:
 
     Model model;
     Ship plane;
-    //Camera camera;
+    Camera camera;
 
-    //SceneObj* active_object = nullptr;
+    SceneObj* active_object = nullptr;
 };
 
 #endif // MANAGER_H

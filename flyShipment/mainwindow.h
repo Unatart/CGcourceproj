@@ -50,6 +50,8 @@ private slots:
 
     void on_clearScr_clicked();
 
+    void on_ship_clicked();
+    
 private:
     Ui::MainWindow* ui;
     QGraphicsScene* scene;

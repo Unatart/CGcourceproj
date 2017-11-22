@@ -119,3 +119,90 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     center = somepoint;
 
 }
+
+void Ship::move(double dx, double dy, double dz) {
+    Point change(dx, dy, dz);
+
+    for(ShipPolygon& pol : ship) {
+        for (Edge& edge : pol.spolygon) {
+            edge.begin += change;
+            edge.end += change;
+        }
+    }
+
+    center += change;
+}
+
+void Ship::rotate(double dxy, double dyz, double dzx) {
+
+    for(ShipPolygon& pol : ship) {
+        for (Edge& edge : pol.spolygon) {
+            if (dxy != 0) {
+                edge.begin.rotate_dxy(dxy, center);
+                edge.end.rotate_dxy(dxy, center);
+            }
+            if (dyz != 0) {
+                edge.begin.rotate_dyz(dyz, center);
+                edge.end.rotate_dyz(dyz, center);
+            }
+            if (dzx != 0) {
+                edge.begin.rotate_dzx(dzx, center);
+                edge.end.rotate_dyz(dyz, center);
+            }
+        }
+    }
+
+}
+
+void Ship::resize(double k) {
+    for(ShipPolygon& pol : ship) {
+        for (Edge& edge : pol.spolygon) {
+            edge.begin += center + (edge.begin - center) * k;
+            edge.end += center + (edge.end - center) * k;
+        }
+    }
+
+    center *= k; // здесь может быть трабл
+
+}
+
+void Ship::rotate(double dxy, double dyz, double dzx, const Point& center) {
+    for(ShipPolygon& pol : ship) {
+        for (Edge& edge : pol.spolygon) {
+            if (dxy != 0) {
+                edge.begin.rotate_dxy(dxy, center);
+                edge.end.rotate_dxy(dxy, center);
+            }
+            if (dyz != 0) {
+                edge.begin.rotate_dyz(dyz, center);
+                edge.end.rotate_dyz(dyz, center);
+            }
+            if (dzx != 0) {
+                edge.begin.rotate_dzx(dzx, center);
+                edge.end.rotate_dyz(dyz, center);
+            }
+        }
+    }
+
+    if (dxy != 0) {
+        this->center.rotate_dxy(dxy, center);
+    }
+    if (dyz != 0) {
+        this->center.rotate_dyz(dyz, center);
+    }
+    if (dzx != 0) {
+        this->center.rotate_dzx(dzx, center);
+    }
+}
+
+void Ship::resize(double k, const Point& center) {
+    for(ShipPolygon& pol : ship) {
+        for (Edge& edge : pol.spolygon) {
+            edge.begin = center + (edge.begin - center) * k;
+            edge.end = center + (edge.end - center) * k;
+        }
+    }
+
+    this->center = center + (this->center - center) * k;
+
+}
