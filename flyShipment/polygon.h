@@ -16,7 +16,6 @@ public:
     createPolygon(Point* points_array);
     addEdge(Edge edge);
 
-private:
     std::vector<Edge> mpolygon;
     QColor polygon_color;
 };
@@ -26,7 +25,6 @@ public:
     createPolygon(Point* points_array);
     addEdge(Edge edge);
 
-private:
     std::vector<Edge> spolygon;
     QColor polygon_color;
 };
