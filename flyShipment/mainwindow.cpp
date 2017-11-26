@@ -3,15 +3,30 @@
 #include "utils.h"
 
 #include <QDialog>
+#include <QDebug>
+#include <QColorDialog>
+#include <QGraphicsPixmapItem>
 
 #include "dialogmodel.h"
 #include "dialogship.h"
+
+#include "camera.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setFixedSize(900, 600);
+    ui->model->toggle();
+    ui->graphicsView->setFixedSize(screen_size_x, screen_size_y);
+    ui->graphicsView->setScene(&scene);
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scene.setSceneRect(-screen_size_x / 2, -screen_size_y / 2, screen_size_x, screen_size_y);
+
+    pixmap = new QPixmap(screen_size_x, screen_size_y);
+    painter = new QPainter(pixmap);
 
     connect(ui->about, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->InfoButtons, SIGNAL(triggered()), this, SLOT(info_buttons()));
@@ -25,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete painter;
+    delete pixmap;
     delete ui;
 }
 
@@ -46,9 +63,10 @@ void MainWindow::create_model() {
         model_s.W = dmodel.Wvalue();
     }
 
+    manager.model.createModel(model_s.L, model_s.H, model_s.W);
+    manager.active_object = &(manager.model);
 
-    model.createModel(model_s.L, model_s.H, model_s.W);
-
+    visualize_model();
 }
 
 void MainWindow::create_ship() {
@@ -62,7 +80,10 @@ void MainWindow::create_ship() {
         ship_s.Wt = dship.Wtvalue();
     }
 
-    plane.createShip(ship_s.L, ship_s.H, ship_s.Wt, ship_s.Wb);
+    manager.ship.createShip(ship_s.L, ship_s.H, ship_s.Wt, ship_s.Wb);
+    manager.active_object = &(manager.ship);
+
+    visualize_ship();
 }
 
 void MainWindow::load_model() {
@@ -121,29 +142,183 @@ void MainWindow::load_ship() {
     file.close();
 }
 
-void MainWindow::on_model_clicked()
-{
+void MainWindow::visualize_model() {
+    scene.clear();
+
+    for (ModelPolygon& pol : manager.model.model) {
+        if (manager.check_visible_m()) {
+
+            QVector<QPoint> polyvector;
+            for (Edge& edge : pol.mpolygon) {
+
+                polyvector.push_back(manager.camera.to_screen(edge.begin));
+                polyvector.push_back(manager.camera.to_screen(edge.end));
+
+            }
+
+            QPolygon polygon(polyvector);
+            scene.addPolygon(polygon,QPen());
+
+        }
+
+    }
 
 }
 
-void MainWindow::on_camera_clicked()
-{
+void MainWindow::visualize_ship() {
+
+    for (ShipPolygon& pol : manager.ship.ship) {
+        if (manager.check_visible_s()) {
+
+            QVector<QPoint> polyvector;
+            for (Edge& edge : pol.spolygon) {
+
+                polyvector.push_back(manager.camera.to_screen(edge.begin));
+                polyvector.push_back(manager.camera.to_screen(edge.end));
+
+            }
+
+            QPolygon polygon(polyvector);
+            scene.addPolygon(polygon, QPen());
+
+        }
+
+    }
 
 }
 
-void MainWindow::on_ship_clicked()
-{
-
-}
-
-void MainWindow::on_paint_clicked()
-{
-
-}
 
 void MainWindow::on_clearScr_clicked()
 {
+    scene.clear();
+}
+
+void MainWindow::on_model_toggled(bool checked)
+{
+    if (checked) {
+        visualize_model();
+    }
+}
+
+void MainWindow::on_ship_toggled(bool checked)
+{
+    if (checked) {
+        visualize_ship();
+    }
+}
+
+void MainWindow::on_camera_toggled(bool checked)
+{
 
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *e) {
+    if (manager.active_object != nullptr) {
+        Point zero(0, 0, 0);
+        switch(e->key()) {
+//			move
+            case Qt::Key_Q :
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(0, 0, -move_speed);
+                } else {
+                    manager.active_object->move(0, 0, -move_speed);
+                }
+                break;
 
+            case Qt::Key_E:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(0, 0, move_speed);
+                } else {
+                    manager.active_object->move(0, 0, move_speed);
+                }
+                break;
+            case Qt::Key_W:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(0, move_speed, 0);
+                } else {
+                    manager.active_object->move(0, -move_speed, 0);
+                }
+                break;
+            case Qt::Key_S:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(0, -move_speed, 0);
+                } else {
+                    manager.active_object->move(0, move_speed, 0);
+                }
+                break;
+
+            case Qt::Key_A :
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(move_speed, 0, 0);
+                } else {
+                    manager.active_object->move(-move_speed, 0, 0);
+                }
+                break;
+
+            case Qt::Key_D:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.move(-move_speed, 0, 0);
+                } else {
+                    manager.active_object->move(move_speed, 0, 0);
+                }
+                break;
+//			rotate
+            case Qt::Key_K:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(0, -rotate_speed, 0, zero);
+                } else {
+                    manager.active_object->rotate(0, rotate_speed, 0);
+                }
+                break;
+            case Qt::Key_I:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(0, rotate_speed, 0, zero);
+                } else {
+                    manager.active_object->rotate(0, -rotate_speed, 0);
+                }
+                break;
+            case Qt::Key_L:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(0, 0, -rotate_speed, zero);
+                } else {
+                    manager.active_object->rotate(0, 0, rotate_speed);
+                }
+                break;
+            case Qt::Key_J:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(0, 0, rotate_speed, zero);
+                } else {
+                    manager.active_object->rotate(0, 0, -rotate_speed);
+                }
+                break;
+            case Qt::Key_O:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(-rotate_speed, 0, 0, zero);
+                } else {
+                    manager.active_object->rotate(-rotate_speed, 0, 0);
+                }
+                break;
+            case Qt::Key_U:
+                if (e->modifiers() & Qt::ShiftModifier) {
+                    manager.model.rotate(rotate_speed, 0, 0, zero);
+                } else {
+                    manager.active_object->rotate(rotate_speed, 0, 0);
+                }
+                break;
+//			resize
+            case Qt::Key_T:
+                manager.active_object->resize(resize_speed);
+                break;
+            case Qt::Key_Y:
+                manager.active_object->resize(1/resize_speed);
+                break;
+            default:
+                break;
+        }
+    }
+    if (ui->model->isChecked()) {
+        visualize_model();
+    } else {
+        visualize_ship();
+    }
+}

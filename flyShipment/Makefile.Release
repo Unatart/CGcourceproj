@@ -268,6 +268,8 @@ release/moc_mainwindow.cpp: C:/Qt/5.9/mingw53_32/include/QtWidgets/QMainWindow \
 		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
 		sceneobj.h \
 		model.h \
+		manager.h \
+		camera.h \
 		mainwindow.h \
 		release/moc_predefs.h \
 		C:/Qt/5.9/mingw53_32/bin/moc.exe
@@ -659,6 +661,8 @@ release/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
 		sceneobj.h \
 		model.h \
+		manager.h \
+		camera.h \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/qapplication.h \
 		C:/Qt/5.9/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -795,6 +799,8 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
 		sceneobj.h \
 		model.h \
+		manager.h \
+		camera.h \
 		ui_mainwindow.h \
 		C:/Qt/5.9/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/QAction \
@@ -850,6 +856,11 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/QWidget \
 		utils.h \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/5.9/mingw53_32/include/QtCore/QDebug \
+		C:/Qt/5.9/mingw53_32/include/QtWidgets/QColorDialog \
+		C:/Qt/5.9/mingw53_32/include/QtWidgets/qcolordialog.h \
+		C:/Qt/5.9/mingw53_32/include/QtWidgets/QGraphicsPixmapItem \
+		C:/Qt/5.9/mingw53_32/include/QtWidgets/qgraphicsitem.h \
 		dialogmodel.h \
 		C:/Qt/5.9/mingw53_32/include/QtCore/QString \
 		C:/Qt/5.9/mingw53_32/include/QtCore/QFile \
@@ -954,7 +965,53 @@ release/ship.o: ship.cpp ship.h \
 		sceneobj.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\ship.o ship.cpp
 
-release/camera.o: camera.cpp 
+release/camera.o: camera.cpp camera.h \
+		point.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/QPoint \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qpoint.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qglobal.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qtcore-config.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qlogging.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qflags.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qmutex.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qversiontagging.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qcolor.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qtguiglobal.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qtgui-config.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qrgb.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qlist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qrgba64.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\camera.o camera.cpp
 
 release/utils.o: utils.cpp utils.h
@@ -1339,7 +1396,58 @@ release/dialogship.o: dialogship.cpp dialogship.h \
 		C:/Qt/5.9/mingw53_32/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\dialogship.o dialogship.cpp
 
-release/manager.o: manager.cpp 
+release/manager.o: manager.cpp manager.h \
+		model.h \
+		point.h \
+		polygon.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qcolor.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qtguiglobal.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qglobal.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qtcore-config.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qlogging.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qflags.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qmutex.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qversiontagging.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qtgui-config.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qrgb.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qlist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.9/mingw53_32/include/QtGui/qrgba64.h \
+		sceneobj.h \
+		ship.h \
+		camera.h \
+		C:/Qt/5.9/mingw53_32/include/QtCore/QPoint \
+		C:/Qt/5.9/mingw53_32/include/QtCore/qpoint.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\manager.o manager.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 

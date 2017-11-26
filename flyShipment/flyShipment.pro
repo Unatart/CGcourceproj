@@ -31,10 +31,10 @@ SOURCES += \
         camera.cpp \
         utils.cpp \
         point.cpp \
-    polygon.cpp \
-    dialogmodel.cpp \
-    dialogship.cpp \
-    manager.cpp
+        polygon.cpp \
+        dialogmodel.cpp \
+        dialogship.cpp \
+        manager.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,14 +43,14 @@ HEADERS += \
         camera.h \
         utils.h \
         point.h \
-    polygon.h \
-    dialogmodel.h \
-    dialogship.h \
-    manager.h \
-    sceneobj.h
+        polygon.h \
+        dialogmodel.h \
+        dialogship.h \
+        manager.h \
+        sceneobj.h
 
 
 FORMS += \
         mainwindow.ui \
-    dialogmodel.ui \
-    dialogship.ui
+        dialogmodel.ui \
+        dialogship.ui

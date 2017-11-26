@@ -1,6 +1,6 @@
 #include "model.h"
 
-void Model::createModel(int L, int H, int W) {
+Model::createModel(int L, int H, int W) {
     // W - x
     // H - y
     // L - z
@@ -26,18 +26,50 @@ void Model::createModel(int L, int H, int W) {
     xy_points_array[2] = form_point;
     form_point.set_x(W);
     xy_points_array[3] = form_point;
-    polygon.createPolygon(xy_points_array);
+    //polygon.mpolygon.createpolygon.mpolygon(xy_points_array);
+    Edge edge;
+
+    edge.begin = xy_points_array[0];
+    edge.end = xy_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[2];
+    edge.end = xy_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[3];
+    edge.end = xy_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[1];
+    edge.end = xy_points_array[0];
+    polygon.mpolygon.push_back(edge);
+
     model.push_back(polygon);
     for (int i = 0; i < 4; i++) {
-        xy_points_array[i].print_point();
+        //xy_points_array[i].print_point();
         xy_points_array[i].set_z(L);
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
-    for (int i = 0; i < 4; i++) {
-        xy_points_array[i].print_point();
-        std::cout << std::endl;
-    }
-    polygon.createPolygon(xy_points_array);
+//    for (int i = 0; i < 4; i++) {
+//        xy_points_array[i].print_point();
+//        std::cout << std::endl;
+//    }
+    edge.begin = xy_points_array[0];
+    edge.end = xy_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[2];
+    edge.end = xy_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[3];
+    edge.end = xy_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xy_points_array[1];
+    edge.end = xy_points_array[0];
+    polygon.mpolygon.push_back(edge);
     model.push_back(polygon);
 
 
@@ -53,18 +85,46 @@ void Model::createModel(int L, int H, int W) {
     xz_points_array[2] = form_point;
     form_point.set_x(W);
     xz_points_array[3] = form_point;
-    polygon.createPolygon(xz_points_array);
+    edge.begin = xz_points_array[0];
+    edge.end = xz_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[2];
+    edge.end = xz_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[3];
+    edge.end = xz_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[1];
+    edge.end = xz_points_array[0];
+    polygon.mpolygon.push_back(edge);
     model.push_back(polygon);
     for (int i = 0; i < 4; i++) {
-        xz_points_array[i].print_point();
+        //xz_points_array[i].print_point();
         xz_points_array[i].set_y(H);
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
-    for (int i = 0; i < 4; i++) {
-        xz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
-    polygon.createPolygon(xz_points_array);
+//    for (int i = 0; i < 4; i++) {
+//        xz_points_array[i].print_point();
+//        std::cout << std::endl;
+//    }
+    edge.begin = xz_points_array[0];
+    edge.end = xz_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[2];
+    edge.end = xz_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[3];
+    edge.end = xz_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = xz_points_array[1];
+    edge.end = xz_points_array[0];
+    polygon.mpolygon.push_back(edge);
     model.push_back(polygon);
 
     //yz axe
@@ -80,18 +140,46 @@ void Model::createModel(int L, int H, int W) {
     yz_points_array[2] = form_point;
     form_point.set_y(H);
     yz_points_array[3] = form_point;
-    polygon.createPolygon(yz_points_array);
+    edge.begin = yz_points_array[0];
+    edge.end = yz_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[2];
+    edge.end = yz_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[3];
+    edge.end = yz_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[1];
+    edge.end = yz_points_array[0];
+    polygon.mpolygon.push_back(edge);
     model.push_back(polygon);
     for (int i = 0; i < 4; i++) {
-        yz_points_array[i].print_point();
+        //yz_points_array[i].print_point();
         yz_points_array[i].set_x(W);
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
-    for (int i = 0; i < 4; i++) {
-        yz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
-    polygon.createPolygon(yz_points_array);
+//    for (int i = 0; i < 4; i++) {
+//        yz_points_array[i].print_point();
+//        std::cout << std::endl;
+//    }
+    edge.begin = yz_points_array[0];
+    edge.end = yz_points_array[2];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[2];
+    edge.end = yz_points_array[3];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[3];
+    edge.end = yz_points_array[1];
+    polygon.mpolygon.push_back(edge);
+
+    edge.begin = yz_points_array[1];
+    edge.end = yz_points_array[0];
+    polygon.mpolygon.push_back(edge);
     model.push_back(polygon);
 
     Point somepoint;
@@ -127,7 +215,7 @@ void Model::rotate(double dxy, double dyz, double dzx) {
             }
             if (dzx != 0) {
                 edge.begin.rotate_dzx(dzx, center);
-                edge.end.rotate_dyz(dyz, center);
+                edge.end.rotate_dzx(dzx, center);
             }
         }
     }
@@ -141,9 +229,6 @@ void Model::resize(double k) {
             edge.end += center + (edge.end - center) * k;
         }
     }
-
-    center *= k; // здесь может быть трабл
-
 }
 
 void Model::rotate(double dxy, double dyz, double dzx, const Point& center) {
@@ -159,7 +244,7 @@ void Model::rotate(double dxy, double dyz, double dzx, const Point& center) {
             }
             if (dzx != 0) {
                 edge.begin.rotate_dzx(dzx, center);
-                edge.end.rotate_dyz(dyz, center);
+                edge.end.rotate_dzx(dzx, center);
             }
         }
     }
@@ -185,4 +270,13 @@ void Model::resize(double k, const Point& center) {
 
     this->center = center + (this->center - center) * k;
 
+}
+
+void Model::printModel() {
+    for(ModelPolygon& pol : model) {
+        for (Edge& edge : pol.mpolygon) {
+            edge.begin.print_point();
+            edge.end.print_point();
+        }
+    }
 }

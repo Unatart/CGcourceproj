@@ -28,20 +28,52 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     xy_points_array[2] = form_point;
     form_point.set_x(Wb - (Wb - Wt)/2);
     xy_points_array[3] = form_point;
-    polygon.createPolygon(xy_points_array);
+    Edge edge;
+//
+    edge.begin = xy_points_array[0];
+    edge.end = xy_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[2];
+    edge.end = xy_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[3];
+    edge.end = xy_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[1];
+    edge.end = xy_points_array[0];
+    polygon.spolygon.push_back(edge);
+//
     ship.push_back(polygon);
     for (int i = 0; i < 4; i++) {
-        xy_points_array[i].print_point();
         xy_points_array[i].set_z(2 * L);
-        std::cout << std::endl;
     }
-    for (int i = 0; i < 4; i++) {
-        xy_points_array[i].print_point();
-        std::cout << std::endl;
-    }
-    polygon.createPolygon(xy_points_array);
+
+    polygon.spolygon.clear();
+//
+    edge.begin = xy_points_array[0];
+    edge.end = xy_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[2];
+    edge.end = xy_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[3];
+    edge.end = xy_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xy_points_array[1];
+    edge.end = xy_points_array[0];
+    polygon.spolygon.push_back(edge);
+//
     ship.push_back(polygon);
+
+
 // for x/z axe
+    polygon.spolygon.clear();
     Point xz_points_array[4];
     form_point.set(0,0,L);
 
@@ -53,12 +85,26 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     xz_points_array[2] = form_point;
     form_point.set_x(Wb);
     xz_points_array[3] = form_point;
-    polygon.createPolygon(xz_points_array);
+
+    edge.begin = xz_points_array[0];
+    edge.end = xz_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[2];
+    edge.end = xz_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[3];
+    edge.end = xz_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[1];
+    edge.end = xz_points_array[0];
+    polygon.spolygon.push_back(edge);
+
     ship.push_back(polygon);
-    for (int i = 0; i < 4; i++) {
-        xz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
+
+    polygon.spolygon.clear();
 
     form_point.set(0,0,L);
     form_point.set_x((Wb-Wt)/2);
@@ -70,12 +116,27 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     xz_points_array[2] = form_point;
     form_point.set_x(Wb - (Wb-Wt)/2);
     xz_points_array[3] = form_point;
-    polygon.createPolygon(xz_points_array);
+
+    edge.begin = xz_points_array[0];
+    edge.end = xz_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[2];
+    edge.end = xz_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[3];
+    edge.end = xz_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = xz_points_array[1];
+    edge.end = xz_points_array[0];
+
+    polygon.spolygon.push_back(edge);
+
     ship.push_back(polygon);
-    for (int i = 0; i < 4; i++) {
-        xz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
+
+    polygon.spolygon.clear();
 
 // for y/z axe
     Point yz_points_array[4];
@@ -90,12 +151,28 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     yz_points_array[2] = form_point;
     form_point.set_z(2*L);
     yz_points_array[3] = form_point;
-    polygon.createPolygon(yz_points_array);
+
+    edge.begin = yz_points_array[0];
+    edge.end = yz_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[2];
+    edge.end = yz_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[3];
+    edge.end = yz_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[1];
+    edge.end = yz_points_array[0];
+
+    polygon.spolygon.push_back(edge);
+
     ship.push_back(polygon);
-    for (int i = 0; i < 4; i++) {
-        yz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
+
+    polygon.spolygon.clear();
+
 
     form_point.set(Wb,0,L);
     yz_points_array[0] = form_point;
@@ -107,12 +184,24 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     yz_points_array[2] = form_point;
     form_point.set_z(2*L);
     yz_points_array[3] = form_point;
-    polygon.createPolygon(yz_points_array);
+    edge.begin = yz_points_array[0];
+    edge.end = yz_points_array[2];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[2];
+    edge.end = yz_points_array[3];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[3];
+    edge.end = yz_points_array[1];
+    polygon.spolygon.push_back(edge);
+
+    edge.begin = yz_points_array[1];
+    edge.end = yz_points_array[0];
+
+    polygon.spolygon.push_back(edge);
+
     ship.push_back(polygon);
-    for (int i = 0; i < 4; i++) {
-        yz_points_array[i].print_point();
-        std::cout << std::endl;
-    }
 
     Point somepoint;
     somepoint.set(Wb/2, H/2, 1.5*L);

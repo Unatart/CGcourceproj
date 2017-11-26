@@ -5,6 +5,7 @@
 #include "model.h"
 #include "ship.h"
 #include "camera.h"
+#include "sceneobj.h"
 
 const Point p_c(0, 0, 400);
 const Point p_d(0, 0, -1);
@@ -14,14 +15,15 @@ class Manager {
 public:
     Manager();
 
-    bool check_visible(Model& init_model);
-    bool check_visible(Ship& init_ship);
+    bool check_visible_m();
+    bool check_visible_s();
 
-    Model model;
-    Ship plane;
     Camera camera;
 
-    SceneObj* active_object = nullptr;
+    Model model;
+    Ship ship;
+
+    SceneObject* active_object = nullptr;
 };
 
 #endif // MANAGER_H

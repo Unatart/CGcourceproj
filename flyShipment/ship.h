@@ -24,9 +24,10 @@ public:
     void rotate(double dxy, double dyz, double dzx, const Point& center);
     void resize(double k, const Point& center);
 
+    std::vector<ShipPolygon> ship;
 private:
     ship_sizes ship_size;
-    std::vector<ShipPolygon> ship;
+
     Point center;
 };
 

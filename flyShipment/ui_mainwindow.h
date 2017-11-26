@@ -40,7 +40,6 @@ public:
     QWidget *centralWidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QPushButton *paint;
     QRadioButton *model;
     QRadioButton *ship;
     QRadioButton *camera;
@@ -58,7 +57,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(793, 502);
+        MainWindow->resize(900, 600);
         exit = new QAction(MainWindow);
         exit->setObjectName(QStringLiteral("exit"));
         about = new QAction(MainWindow);
@@ -77,17 +76,12 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(590, 10, 191, 125));
+        verticalLayoutWidget->setGeometry(QRect(640, 360, 241, 141));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        paint = new QPushButton(verticalLayoutWidget);
-        paint->setObjectName(QStringLiteral("paint"));
-
-        verticalLayout->addWidget(paint);
-
         model = new QRadioButton(verticalLayoutWidget);
         model->setObjectName(QStringLiteral("model"));
 
@@ -110,11 +104,11 @@ public:
 
         graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(10, 10, 571, 431));
+        graphicsView->setGeometry(QRect(10, 30, 600, 480));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 793, 20));
+        menuBar->setGeometry(QRect(0, 0, 900, 20));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         create_menu = new QMenu(menu);
@@ -159,7 +153,6 @@ public:
         create_ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         download_model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         download_ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
-        paint->setText(QApplication::translate("MainWindow", "\320\240\320\270\321\201\320\276\320\262\320\260\321\202\321\214", Q_NULLPTR));
         model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         camera->setText(QApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\320\260", Q_NULLPTR));
