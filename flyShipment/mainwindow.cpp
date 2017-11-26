@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "utils.h"
+#include <limits>
 
 #include <QDialog>
 #include <QDebug>
@@ -303,15 +304,13 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::drawZBuffer() {
+
     int bufferWidth = 900;
     int bufferHeigth = 600;
 
-    double **bufferMatrix = (double**)malloc(sizeof(double*)*(bufferWidth + 1));
-    for (int i = 0; i < bufferWidth + 1; i ++)
-        bufferMatrix[i] = (double*)malloc(sizeof(double)*(bufferHeigth + 1));
     for (int i = 0; i < bufferWidth + 1; i ++)
         for (int j = 0; j < bufferHeigth + 1; j ++)
-            bufferMatrix[i][j]= bufferWidth;
+            bufferMatrix[i][j] = std::numeric_limits<double>::max();
 
     for (ModelPolygon& modelpol : manager.model.model) { // для каждого полигона в теле
         std::vector<Point> trianglePol1;
@@ -333,21 +332,17 @@ void MainWindow::drawZBuffer() {
         trianglePol2.push_back(point_array[2]);
         trianglePol2.push_back(point_array[3]);
 
-        rasterCompareAndDraw(trianglePol1, bufferMatrix);
-        rasterCompareAndDraw(trianglePol2, bufferMatrix);
+        rasterCompareAndDraw(trianglePol1);
+        rasterCompareAndDraw(trianglePol2);
 
         trianglePol1.clear();
         trianglePol2.clear();
     }
-
-    for (int i = 0; i < bufferWidth + 1; i++) {
-            free(bufferMatrix[i]);
-    }
-    free(bufferMatrix);
-
 }
 
-void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
+void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
+
+
     Point p1, p2, p3;
     int xa, xb, za, zb;
     double z;
@@ -421,14 +416,15 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
             {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
-                if (z < buffer[x+450][y+300])
+
+                if (z < bufferMatrix[x+450][y+300])
                 {
                     QPoint point;
                     Point p;
                     p.set(x,y,z);
                     point = manager.camera.to_screen(p);
                     scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                    buffer[point.x()+450][point.y()+300] = z;
+                    bufferMatrix[point.x()+450][point.y()+300] = z;
                 }
             }
             else
@@ -436,14 +432,14 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < buffer[x+450][y+300])
+                    if (z < bufferMatrix[x+450][y+300])
                     {
                         QPoint point;
                         Point p;
                         p.set(x,y,z);
                         point = manager.camera.to_screen(p);
                         scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                        buffer[point.x()+450][point.y()+300] = z;
+                        bufferMatrix[point.x()+450][point.y()+300] = z;
                     }
                 }
             }
@@ -464,14 +460,14 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
             {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
-                if (z < buffer[x+450][y+300])
+                if (z < bufferMatrix[x+450][y+300])
                 {
                     QPoint point;
                     Point p;
                     p.set(x,y,z);
                     point = manager.camera.to_screen(p);
                     scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                    buffer[point.x()+450][point.y()+300] = z;
+                    bufferMatrix[point.x()+450][point.y()+300] = z;
                 }
             }
             else
@@ -479,14 +475,14 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < buffer[x+450][y+300])
+                    if (z < bufferMatrix[x+450][y+300])
                     {
                         QPoint point;
                         Point p;
                         p.set(x,y,z);
                         point = manager.camera.to_screen(p);
                         scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                        buffer[point.x()+450][point.y()+300] = z;
+                        bufferMatrix[point.x()+450][point.y()+300] = z;
                     }
                 }
             }
@@ -504,14 +500,14 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
             {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
-                if (z < buffer[x+450][y+300])
+                if (z < bufferMatrix[x+450][y+300])
                 {
                     QPoint point;
                     Point p;
                     p.set(x,y,z);
                     point = manager.camera.to_screen(p);
                     scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                    buffer[point.x()+450][point.y()+300] = z;
+                    bufferMatrix[point.x()+450][point.y()+300] = z;
                 }
             }
             else
@@ -519,14 +515,14 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double** buffer) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < buffer[x+450][y+300])
+                    if (z < bufferMatrix[x+450][y+300])
                     {
                         QPoint point;
                         Point p;
                         p.set(x,y,z);
                         point = manager.camera.to_screen(p);
                         scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
-                        buffer[point.x()+450][point.y()+300] = z;
+                        bufferMatrix[point.x()+450][point.y()+300] = z;
                     }
                 }
             }

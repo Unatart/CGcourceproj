@@ -54,12 +54,10 @@ private slots:
 
     void on_ship_toggled(bool checked);
 
-    void on_camera_toggled(bool checked);
-
     void keyPressEvent(QKeyEvent*);
 
     void drawZBuffer();
-    void rasterCompareAndDraw(std::vector<Point>, double**);
+    void rasterCompareAndDraw(std::vector<Point>);
 
     void on_zbuffer_toggled(bool checked);
 
@@ -71,6 +69,7 @@ private:
     QPainter* painter;
 
     Manager manager;
+    double bufferMatrix[900][600];
 
     sizes model_s;
     ship_sizes ship_s;
