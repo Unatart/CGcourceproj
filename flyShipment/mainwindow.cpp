@@ -1,12 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "utils.h"
-#include <limits>
-
-#include <QDialog>
-#include <QDebug>
-#include <QColorDialog>
-#include <QGraphicsPixmapItem>
 
 #include "dialogmodel.h"
 #include "dialogship.h"
@@ -17,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    bufferMatrix = new double*[900];
+    for(int i = 0;i < 900; i++) {
+        bufferMatrix[i] = new double[600];
+    }
     ui->setupUi(this);
     setFixedSize(900, 600);
     ui->model->toggle();
@@ -41,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    for (int i = 0; i < 900; i++){
+        delete bufferMatrix[i];
+    }
+    delete bufferMatrix;
     delete painter;
     delete pixmap;
     delete ui;
@@ -304,12 +305,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::drawZBuffer() {
-
-    int bufferWidth = 900;
-    int bufferHeigth = 600;
-
-    for (int i = 0; i < bufferWidth + 1; i ++)
-        for (int j = 0; j < bufferHeigth + 1; j ++)
+    for (int i = 0; i < 900; i++)
+        for (int j = 0; j < 600; j++)
             bufferMatrix[i][j] = std::numeric_limits<double>::max();
 
     for (ModelPolygon& modelpol : manager.model.model) { // для каждого полигона в теле

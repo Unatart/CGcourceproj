@@ -11,6 +11,13 @@
 #include <QFileDialog>
 #include <QTextStream>
 
+#include <limits>
+
+#include <QDialog>
+#include <QDebug>
+#include <QColorDialog>
+#include <QGraphicsPixmapItem>
+
 #include "ship.h"
 #include "model.h"
 #include "manager.h"
@@ -69,7 +76,7 @@ private:
     QPainter* painter;
 
     Manager manager;
-    double bufferMatrix[900][600];
+    double** bufferMatrix;
 
     sizes model_s;
     ship_sizes ship_s;
