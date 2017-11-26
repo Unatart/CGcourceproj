@@ -414,7 +414,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
 
-                if (z < bufferMatrix[x+450][y+300])
+                if (z < bufferMatrix[x][y])
                 {
                     QPoint point;
                     Point p;
@@ -429,7 +429,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < bufferMatrix[x+450][y+300])
+                    if (z < bufferMatrix[x][y])
                     {
                         QPoint point;
                         Point p;
@@ -457,7 +457,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
             {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
-                if (z < bufferMatrix[x+450][y+300])
+                if (z < bufferMatrix[x][y])
                 {
                     QPoint point;
                     Point p;
@@ -472,7 +472,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < bufferMatrix[x+450][y+300])
+                    if (z < bufferMatrix[x][y])
                     {
                         QPoint point;
                         Point p;
@@ -497,7 +497,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
             {
                 int x = x1;
                 z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
-                if (z < bufferMatrix[x+450][y+300])
+                if (z < bufferMatrix[x][y])
                 {
                     QPoint point;
                     Point p;
@@ -512,7 +512,7 @@ void MainWindow::rasterCompareAndDraw(std::vector<Point> pol) {
                 for (int x = x1; x < x2; x ++)
                 {
                     z = za + (zb - za)*(x - xa)/(xb - xa);
-                    if (z < bufferMatrix[x+450][y+300])
+                    if (z < bufferMatrix[x][y])
                     {
                         QPoint point;
                         Point p;
