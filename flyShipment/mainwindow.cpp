@@ -163,6 +163,8 @@ void MainWindow::visualize_model() {
 
     }
 
+    drawZBuffer();
+
 }
 
 void MainWindow::visualize_ship() {
@@ -320,5 +322,230 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
         visualize_model();
     } else {
         visualize_ship();
+    }
+}
+
+void MainWindow::drawZBuffer() {
+    int bufferWidth = 900;
+    int bufferHeigth = 600;
+
+    double **bufferMatrix = (double**)malloc(sizeof(double*)*(bufferWidth + 1));
+    for (int i = 0; i < bufferWidth + 1; i ++)
+        bufferMatrix[i] = (double*)malloc(sizeof(double)*(bufferHeigth + 1));
+    for (int i = 0; i < bufferWidth + 1; i ++)
+        for (int j = 0; j < bufferHeigth + 1; j ++)
+            bufferMatrix[i][j]= bufferHeigth;
+
+
+    for (ModelPolygon& modelpol : manager.model.model) {
+        std::vector<Point> trianglePol1, trianglePol2;
+        Point point_array[4];
+        int i = 0;
+        for (Edge& edge: modelpol.mpolygon) {
+            point_array[i] = edge.begin;
+        }
+        trianglePol1.push_back(point_array[0]);
+        trianglePol1.push_back(point_array[1]);
+        trianglePol1.push_back(point_array[2]);
+
+        trianglePol2.push_back(point_array[0]);
+        trianglePol2.push_back(point_array[2]);
+        trianglePol2.push_back(point_array[3]);
+
+        rasterCompareAndDraw(trianglePol1, bufferMatrix);
+        rasterCompareAndDraw(trianglePol2, bufferMatrix);
+    }
+
+    for (int i = 0; i < bufferWidth + 1; i++) {
+            free(bufferMatrix[i]);
+    }
+    free(bufferMatrix);
+
+}
+
+void MainWindow::rasterCompareAndDraw(std::vector<Point> pol, double**buffer) {
+    Point p1, p2, p3;
+    int xa, xb, za, zb;
+    double z;
+
+    // compare points by y-values
+    if (pol[0].get_y() > pol[1].get_y())
+    {
+        if (pol[0].get_y() > pol[2].get_y())
+        {
+            p3 = pol[0];
+            if (pol[1].get_y() > pol[2].get_y())
+            {
+                p1 = pol[2];
+                p2 = pol[1];
+            }
+            else
+            {
+                p2 = pol[2];
+                p1 = pol[1];
+            }
+        }
+        else
+        {
+            p1 = pol[1];
+            p2 = pol[0];
+            p3 = pol[2];
+        }
+    }
+    else
+    {
+        if (pol[1].get_y() > pol[2].get_y())
+        {
+            p3 = pol[1];
+            if (pol[0].get_y() > pol[2].get_y())
+            {
+                p1 = pol[2];
+                p2 = pol[0];
+            }
+            else
+            {
+                p2 = pol[2];
+                p1 = pol[0];
+            }
+        }
+        else
+        {
+            p1 = pol[0];
+            p2 = pol[1];
+            p3 = pol[2];
+        }
+    }
+
+    //треугольник вырождается в прямую
+    if (p1.get_y() == p3.get_y())
+    {
+//        ignore this triangle
+    }
+    // верхние вершины нах-ся на одной высоте(рассматриваем 1 треугольник)
+    else if (p1.get_y() == p2.get_y())
+    {
+        for (int y = p2.get_y(); y < p3.get_y(); y ++)
+
+        {
+            xa = p2.get_x() + (p3.get_x() - p2.get_x())*(y - p2.get_y())/(p3.get_y() - p2.get_y());
+            xb = p1.get_x() + (p3.get_x() - p1.get_x())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            za = p2.get_z() + (p3.get_z() - p2.get_z())*(y - p2.get_y())/(p3.get_y() - p2.get_y());
+            zb = p1.get_z() + (p3.get_z() - p1.get_z())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            int x1 = std::min(xa, xb);
+            int x2 = std::max(xa, xb);
+            if (x1 == x2)
+            {
+                int x = x1;
+                z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
+                if (z < buffer[x][y])
+                {
+                    QPoint point;
+                    Point p;
+                    p.set(x,y,z);
+                    point = manager.camera.to_screen(p);
+                    scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                    buffer[x][y] = z;
+                }
+            }
+            else
+            {
+                for (int x = x1; x < x2; x ++)
+                {
+                    z = za + (zb - za)*(x - xa)/(xb - xa);
+                    if (z < buffer[x][y])
+                    {
+                        QPoint point;
+                        Point p;
+                        p.set(x,y,z);
+                        point = manager.camera.to_screen(p);
+                        scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                        buffer[x][y] = z;
+                    }
+                }
+            }
+        }
+    }
+    // делим треугольник на 2 треугольника и рассматриваем каждый из них
+    else
+    {
+        for (int y = p1.get_y(); y < p2.get_y(); y ++)
+        {
+            xa = p1.get_x() + (p2.get_x() - p1.get_x())*(y - p1.get_y())/(p2.get_y() - p1.get_y());
+            xb = p1.get_x() + (p3.get_x() - p1.get_x())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            za = p1.get_z() + (p2.get_z() - p1.get_z())*(y - p1.get_y())/(p2.get_y() - p1.get_y());
+            zb = p1.get_z() + (p3.get_z() - p1.get_z())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            int x1 = std::min(xa, xb);
+            int x2 = std::max(xa, xb);
+            if (x1 == x2)
+            {
+                int x = x1;
+                z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
+                if (z < buffer[x][y])
+                {
+                    QPoint point;
+                    Point p;
+                    p.set(x,y,z);
+                    point = manager.camera.to_screen(p);
+                    scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                    buffer[x][y] = z;
+                }
+            }
+            else
+            {
+                for (int x = x1; x < x2; x ++)
+                {
+                    z = za + (zb - za)*(x - xa)/(xb - xa);
+                    if (z < buffer[x][y])
+                    {
+                        QPoint point;
+                        Point p;
+                        p.set(x,y,z);
+                        point = manager.camera.to_screen(p);
+                        scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                        buffer[x][y] = z;
+                    }
+                }
+            }
+        }
+
+        for (int y = p2.get_y(); y < p3.get_y(); y ++)
+        {
+            xa = p2.get_x() + (p3.get_x() - p2.get_x())*(y - p2.get_y())/(p3.get_y() - p2.get_y());
+            xb = p1.get_x() + (p3.get_x() - p1.get_x())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            za = p2.get_z() + (p3.get_z() - p2.get_z())*(y - p2.get_y())/(p3.get_y() - p2.get_y());
+            zb = p1.get_z() + (p3.get_z() - p1.get_z())*(y - p1.get_y())/(p3.get_y() - p1.get_y());
+            int x1 = std::min(xa, xb);
+            int x2 = std::max(xa, xb);
+            if (x1 == x2)
+            {
+                int x = x1;
+                z = std::min(std::min(p1.get_z(), p2.get_z()), p3.get_z());
+                if (z < buffer[x][y])
+                {
+                    QPoint point;
+                    Point p;
+                    p.set(x,y,z);
+                    point = manager.camera.to_screen(p);
+                    scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                    buffer[x][y] = z;
+                }
+            }
+            else
+            {
+                for (int x = x1; x < x2; x ++)
+                {
+                    z = za + (zb - za)*(x - xa)/(xb - xa);
+                    if (z < buffer[x][y])
+                    {
+                        QPoint point;
+                        Point p;
+                        p.set(x,y,z);
+                        point = manager.camera.to_screen(p);
+                        scene.addRect(point.x(), point.y(), 1, 1, QPen(Qt::blue));
+                        buffer[x][y] = z;
+                    }
+                }
+            }
+        }
     }
 }

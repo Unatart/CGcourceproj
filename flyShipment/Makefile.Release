@@ -1020,51 +1020,7 @@ release/utils.o: utils.cpp utils.h
 release/point.o: point.cpp point.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\point.o point.cpp
 
-release/polygon.o: polygon.cpp polygon.h \
-		point.h \
-		C:/Qt/5.9/mingw53_32/include/QtGui/QColor \
-		C:/Qt/5.9/mingw53_32/include/QtGui/qcolor.h \
-		C:/Qt/5.9/mingw53_32/include/QtGui/qtguiglobal.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qglobal.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qconfig.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qtcore-config.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qsystemdetection.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qprocessordetection.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qcompilerdetection.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qtypeinfo.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qsysinfo.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qlogging.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qflags.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qbasicatomic.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_bootstrap.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qgenericatomic.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_cxx11.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qatomic_msvc.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qglobalstatic.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qmutex.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qversiontagging.h \
-		C:/Qt/5.9/mingw53_32/include/QtGui/qtgui-config.h \
-		C:/Qt/5.9/mingw53_32/include/QtGui/qrgb.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qnamespace.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qstringlist.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qlist.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qalgorithms.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qiterator.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qrefcount.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qarraydata.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qhashfunctions.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qchar.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qpair.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qbytearray.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qstring.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qstringbuilder.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qregexp.h \
-		C:/Qt/5.9/mingw53_32/include/QtCore/qstringmatcher.h \
-		C:/Qt/5.9/mingw53_32/include/QtGui/qrgba64.h
+release/polygon.o: polygon.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\polygon.o polygon.cpp
 
 release/dialogmodel.o: dialogmodel.cpp dialogmodel.h \

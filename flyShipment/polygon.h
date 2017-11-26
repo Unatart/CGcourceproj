@@ -13,16 +13,12 @@ struct Edge {
 
 class ModelPolygon {
 public:
-    createPolygon(Point* points_array);
-
     std::vector<Edge> mpolygon;
     QColor polygon_color;
 };
 
 class ShipPolygon {
 public:
-    createPolygon(Point* points_array);
-
     std::vector<Edge> spolygon;
     QColor polygon_color;
 };

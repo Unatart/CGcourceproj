@@ -58,6 +58,9 @@ private slots:
 
     void keyPressEvent(QKeyEvent*);
 
+    void drawZBuffer();
+    void rasterCompareAndDraw(std::vector<Point>, double**);
+
 private:
     Ui::MainWindow* ui;
 
