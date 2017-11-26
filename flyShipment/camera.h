@@ -17,6 +17,7 @@ public:
 
     Camera(const Point& coordinates, const Point& direction);
     QPoint to_screen(const Point& p);
+    QPoint to_screen_s(const Point& p);
     bool point_visible(const Point& p) const;
 
     Point coordinates;

@@ -61,6 +61,8 @@ private slots:
     void drawZBuffer();
     void rasterCompareAndDraw(std::vector<Point>, double**);
 
+    void on_zbuffer_toggled(bool checked);
+
 private:
     Ui::MainWindow* ui;
 

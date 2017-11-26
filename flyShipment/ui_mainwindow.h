@@ -42,7 +42,7 @@ public:
     QVBoxLayout *verticalLayout;
     QRadioButton *model;
     QRadioButton *ship;
-    QRadioButton *camera;
+    QRadioButton *zbuffer;
     QPushButton *clearScr;
     QGraphicsView *graphicsView;
     QMenuBar *menuBar;
@@ -92,10 +92,10 @@ public:
 
         verticalLayout->addWidget(ship);
 
-        camera = new QRadioButton(verticalLayoutWidget);
-        camera->setObjectName(QStringLiteral("camera"));
+        zbuffer = new QRadioButton(verticalLayoutWidget);
+        zbuffer->setObjectName(QStringLiteral("zbuffer"));
 
-        verticalLayout->addWidget(camera);
+        verticalLayout->addWidget(zbuffer);
 
         clearScr = new QPushButton(verticalLayoutWidget);
         clearScr->setObjectName(QStringLiteral("clearScr"));
@@ -108,7 +108,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 900, 20));
+        menuBar->setGeometry(QRect(0, 0, 900, 21));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         create_menu = new QMenu(menu);
@@ -155,7 +155,7 @@ public:
         download_ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
-        camera->setText(QApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\320\260", Q_NULLPTR));
+        zbuffer->setText(QApplication::translate("MainWindow", "Z-\320\261\321\203\321\204\321\204\320\265\321\200", Q_NULLPTR));
         clearScr->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \321\201\321\206\320\265\320\275\321\203", Q_NULLPTR));
         menu->setTitle(QApplication::translate("MainWindow", "  \320\234\320\265\320\275\321\216", Q_NULLPTR));
         create_menu->setTitle(QApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\321\202\321\214", Q_NULLPTR));

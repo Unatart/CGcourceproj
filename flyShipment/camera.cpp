@@ -9,7 +9,17 @@ QPoint Camera::to_screen(const Point& p)
     if (p.get_z() != coordinates.get_z()) {
         k = 1 - p.get_z() / coordinates.get_z();
     }
-    QPoint point(p.get_x() / k, -1*p.get_y() / k);
+    QPoint point(p.get_x() / k, p.get_y() / k);
+    return point;
+}
+
+QPoint Camera::to_screen_s(const Point& p)
+{
+    double k = 1;
+    if (p.get_z() != coordinates.get_z()) {
+        k = 1 - p.get_z() / coordinates.get_z();
+    }
+    QPoint point(-1*p.get_x() / k, -1*p.get_y() / k);
     return point;
 }
 
