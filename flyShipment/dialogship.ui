@@ -63,7 +63,7 @@
       <item>
        <widget class="QLabel" name="top_w">
         <property name="text">
-         <string>Ширина верх. осн.</string>
+         <string>Ширина нижн. осн.</string>
         </property>
        </widget>
       </item>
@@ -80,7 +80,7 @@
       <item>
        <widget class="QLabel" name="bottom_w">
         <property name="text">
-         <string>Ширина нижн. осн.</string>
+         <string>Ширина верх. осн.</string>
         </property>
        </widget>
       </item>

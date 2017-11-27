@@ -34,7 +34,8 @@ SOURCES += \
         polygon.cpp \
         dialogmodel.cpp \
         dialogship.cpp \
-        manager.cpp
+        manager.cpp \
+    zbuffer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,11 +44,12 @@ HEADERS += \
         camera.h \
         utils.h \
         point.h \
-        polygon.h \
         dialogmodel.h \
         dialogship.h \
         manager.h \
-        sceneobj.h
+        sceneobj.h \
+    zbuffer.h \
+    polygon.h
 
 
 FORMS += \

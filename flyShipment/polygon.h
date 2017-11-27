@@ -5,24 +5,11 @@
 #include <vector>
 #include <QColor>
 
-struct Edge {
-    Point begin;
-    Point end;
-    QColor EdgeColor;
-};
-
-class ModelPolygon {
+class Polygon {
 public:
-    std::vector<Edge> mpolygon;
+    std::vector<Point> points;
     QColor polygon_color;
 };
-
-class ShipPolygon {
-public:
-    std::vector<Edge> spolygon;
-    QColor polygon_color;
-};
-
 
 
 #endif // POLYGON_H

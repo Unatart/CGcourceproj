@@ -13,7 +13,9 @@ struct sizes {
 
 class Model : public SceneObject {
 public:
-    createModel(int L, int H, int W);
+
+    Model() = default;
+    Model(int L, int H, int W);
 
     void move(double dx, double dy, double dz);
 
@@ -25,11 +27,10 @@ public:
 
     void printModel();
 
-    std::vector<ModelPolygon> model;
+    std::vector<Polygon> polygons;
 
 private:
     sizes model_size;
-
     Point center;
 
 };

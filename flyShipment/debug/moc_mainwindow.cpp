@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[18];
-    char stringdata0[234];
+    QByteArrayData data[15];
+    char stringdata0[177];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,19 +45,14 @@ QT_MOC_LITERAL(10, 114, 7), // "checked"
 QT_MOC_LITERAL(11, 122, 15), // "on_ship_toggled"
 QT_MOC_LITERAL(12, 138, 13), // "keyPressEvent"
 QT_MOC_LITERAL(13, 152, 10), // "QKeyEvent*"
-QT_MOC_LITERAL(14, 163, 11), // "drawZBuffer"
-QT_MOC_LITERAL(15, 175, 20), // "rasterCompareAndDraw"
-QT_MOC_LITERAL(16, 196, 18), // "std::vector<Point>"
-QT_MOC_LITERAL(17, 215, 18) // "on_zbuffer_toggled"
+QT_MOC_LITERAL(14, 163, 13) // "mydrawZBuffer"
 
     },
     "MainWindow\0info_buttons\0\0about\0"
     "load_model\0load_ship\0create_model\0"
     "create_ship\0on_clearScr_clicked\0"
     "on_model_toggled\0checked\0on_ship_toggled\0"
-    "keyPressEvent\0QKeyEvent*\0drawZBuffer\0"
-    "rasterCompareAndDraw\0std::vector<Point>\0"
-    "on_zbuffer_toggled"
+    "keyPressEvent\0QKeyEvent*\0mydrawZBuffer"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +62,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,19 +70,17 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x0a /* Public */,
-       3,    0,   80,    2, 0x0a /* Public */,
-       4,    0,   81,    2, 0x08 /* Private */,
-       5,    0,   82,    2, 0x08 /* Private */,
-       6,    0,   83,    2, 0x08 /* Private */,
-       7,    0,   84,    2, 0x08 /* Private */,
-       8,    0,   85,    2, 0x08 /* Private */,
-       9,    1,   86,    2, 0x08 /* Private */,
-      11,    1,   89,    2, 0x08 /* Private */,
-      12,    1,   92,    2, 0x08 /* Private */,
-      14,    0,   95,    2, 0x08 /* Private */,
-      15,    1,   96,    2, 0x08 /* Private */,
-      17,    1,   99,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x0a /* Public */,
+       3,    0,   70,    2, 0x0a /* Public */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    0,   73,    2, 0x08 /* Private */,
+       7,    0,   74,    2, 0x08 /* Private */,
+       8,    0,   75,    2, 0x08 /* Private */,
+       9,    1,   76,    2, 0x08 /* Private */,
+      11,    1,   79,    2, 0x08 /* Private */,
+      12,    1,   82,    2, 0x08 /* Private */,
+      14,    0,   85,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -101,8 +94,6 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, QMetaType::Bool,   10,
     QMetaType::Void, 0x80000000 | 13,    2,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16,    2,
-    QMetaType::Void, QMetaType::Bool,   10,
 
        0        // eod
 };
@@ -123,9 +114,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->on_model_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 8: _t->on_ship_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 9: _t->keyPressEvent((*reinterpret_cast< QKeyEvent*(*)>(_a[1]))); break;
-        case 10: _t->drawZBuffer(); break;
-        case 11: _t->rasterCompareAndDraw((*reinterpret_cast< std::vector<Point>(*)>(_a[1]))); break;
-        case 12: _t->on_zbuffer_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 10: _t->mydrawZBuffer(); break;
         default: ;
         }
     }
@@ -156,13 +145,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 11;
     }
     return _id;
 }

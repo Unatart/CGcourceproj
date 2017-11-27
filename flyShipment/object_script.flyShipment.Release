@@ -10,6 +10,7 @@ INPUT(
 ./release\dialogmodel.o
 ./release\dialogship.o
 ./release\manager.o
+./release\zbuffer.o
 ./release\moc_mainwindow.o
 ./release\moc_dialogmodel.o
 ./release\moc_dialogship.o
