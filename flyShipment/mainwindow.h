@@ -88,7 +88,7 @@ private:
 
     ZBuffer zbuffer;
 
-    void transform_points_for_zbuffer(std::vector<Polygon> &transformed_polygons);
+    void transform_points_for_zbuffer(std::list<Polygon> &transformed_polygons);
 };
 
 #endif // MAINWINDOW_H

@@ -22,6 +22,7 @@ Model::Model(int L, int H, int W) {
 
     form_point.set_x(0);
     polygon.points.push_back(form_point);
+    polygon.setup_flatness();
 
     polygons.push_back(polygon);
 
@@ -29,7 +30,7 @@ Model::Model(int L, int H, int W) {
     for (Point& point : polygon.points) {
         point.set_z(L);
     }
-
+    polygon.setup_flatness();
     polygons.push_back(polygon);
 
 
@@ -46,6 +47,7 @@ Model::Model(int L, int H, int W) {
         polygon.points.push_back(second_pol.points[i]);
         polygon.points.push_back(second_pol.points[first_index]);
 
+        polygon.setup_flatness();
         polygons.push_back(polygon);
     }
 
@@ -59,6 +61,7 @@ void Model::move(double dx, double dy, double dz) {
         for (Point& point : pol.points) {
             point += change;
         }
+        pol.setup_flatness();
     }
 
     center += change;
@@ -78,6 +81,7 @@ void Model::rotate(double dxy, double dyz, double dzx) {
                 point.rotate_dzx(dzx, center);
             }
         }
+        pol.setup_flatness();
     }
 }
 
@@ -86,6 +90,7 @@ void Model::resize(double k) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 }
 
@@ -102,6 +107,7 @@ void Model::rotate(double dxy, double dyz, double dzx, const Point& center) {
                 point.rotate_dzx(dzx, center);
             }
         }
+        pol.setup_flatness();
     }
 
     if (dxy != 0) {
@@ -120,6 +126,7 @@ void Model::resize(double k, const Point& center) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 
     this->center = center + (this->center - center) * k;
@@ -130,5 +137,6 @@ void Model::printModel() {
         for (Point& point : pol.points) {
             point.print_point();
         }
+        pol.setup_flatness();
     }
 }
