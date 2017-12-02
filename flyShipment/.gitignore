@@ -1,0 +1,11 @@
+*.pro*
+debug/*
+release/*
+*.o
+*.Debug*
+*.Release*
+Makefile*
+*qmake*
+*Makefile*
+*.cpp.*
+Makefile
