@@ -4,7 +4,6 @@
 #include "dialogmodel.h"
 #include "dialogship.h"
 
-#include <list>
 #include "camera.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -33,8 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->download_model, SIGNAL(triggered()), this, SLOT(load_model()));
     connect(ui->download_ship, SIGNAL(triggered()), this, SLOT(load_ship()));
     connect(ui->exit, SIGNAL(triggered()), this, SLOT(close()));
-
-//    qDebug() << scene.sceneRect();
 }
 
 MainWindow::~MainWindow()
@@ -142,6 +139,7 @@ void MainWindow::load_ship() {
 }
 
 void MainWindow::visualize_model() {
+    scene.clear();
 
     for (Polygon& pol : manager.model.polygons) {
         if (manager.check_visible_m()) {
@@ -157,6 +155,7 @@ void MainWindow::visualize_model() {
 }
 
 void MainWindow::visualize_ship() {
+    scene.clear();
 
     for (Polygon& pol : manager.ship.polygons) {
         if (manager.check_visible_s()) {
@@ -191,7 +190,6 @@ void MainWindow::on_ship_toggled(bool checked)
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-    scene.clear();
     if (manager.active_object != nullptr) {
         Point zero(0, 0, 0);
         switch(e->key()) {
@@ -297,7 +295,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     }
 
     if (ui->zbuffer->isChecked()) {
-        mydrawZBuffer();
+
+
     } else {
         visualize_model();
         visualize_ship();
@@ -305,64 +304,28 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::mydrawZBuffer() {
-    scene.clear();
     zbuffer.initialize();
 
-    std::list<Polygon> waiting_polygons;
+    std::vector<Polygon> waiting_polygons;
     transform_points_for_zbuffer(waiting_polygons);
 
-    std::list<Polygon> active_polygons;
+    std::vector<Polygon> active_polygons;
 
 //    проходимся по каждой строке экрана
     for (int x = 0; x < screen_size_x; ++x) {
 //        здесь нужно посмотреть в список ждущих полигонов и если минимальное значение х меньше или равно текущему
 //        нужно убрать данный полигон из списка ждущих и добавить его в список активных
-        for (auto it = waiting_polygons.cbegin(); it != waiting_polygons.cend(); ++it) {
-            double min_x = screen_size_x;
-            for (const Point& point : (*it).points) {
-                if (point.get_x() < min_x) {
-                    min_x = point.get_x();
-                    if (min_x <= x) {
-                        active_polygons.push_back(*it);
-                        waiting_polygons.erase(it);
-                        break;
-                    }
-                }
-            }
-        }
 //        если список активных полигонов пуст, скипаем цикл
         for (int y = 0; y < screen_size_y; ++y) {
 //            проходимся по списку активных полигонов и смотрим глубину пикселя для этого полигона, если она меньше,
 //            чем хранящаяся в zbuffer-е, записываем ее туда вместе с цветом
-            for (const Polygon& polygon : active_polygons) {
-                double depth = polygon.depth_of_pixel(x, y);
-                if (depth < zbuffer.cells[x][y].depth) {
-                    zbuffer.cells[x][y].depth = depth;
-                    zbuffer.cells[x][y].color = polygon.polygon_color;
-                }
-            }
-            painter->setPen(zbuffer.cells[x][y].color);
-            painter->drawPoint(x, y);
         }
 //        проходимся по списку активных полигонов и смотрим, если максимальный х для полигона равен текущему, то убираем
 //        его из списка активных (в список ждущих НЕ добавляем)
-        for (auto it = active_polygons.cbegin(); it != active_polygons.cend(); ++it) {
-            double max_x = 0;
-            for (const Point& point : (*it).points) {
-                if (point.get_x() > max_x) {
-                    max_x = point.get_x();
-                }
-            }
-            if (max_x <= x) {
-                active_polygons.erase(it);
-            }
-        }
     }
-    QGraphicsPixmapItem* it = scene.addPixmap(*pixmap);
-    it->setPos(-screen_size_x / 2, -screen_size_y / 2);
 }
 
-void MainWindow::transform_points_for_zbuffer(std::list<Polygon>& transformed_polygons) {
+void MainWindow::transform_points_for_zbuffer(std::vector<Polygon>& transformed_polygons) {
     for (Polygon& polygon : manager.model.polygons) {
         Polygon transformed_polygon;
         for (Point& point : polygon.points) {

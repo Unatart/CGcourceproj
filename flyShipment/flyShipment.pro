@@ -35,8 +35,7 @@ SOURCES += \
         dialogmodel.cpp \
         dialogship.cpp \
         manager.cpp \
-    zbuffer.cpp \
-    flatness.cpp
+    zbuffer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,8 +49,7 @@ HEADERS += \
         manager.h \
         sceneobj.h \
     zbuffer.h \
-    polygon.h \
-    flatness.h
+    polygon.h
 
 
 FORMS += \
