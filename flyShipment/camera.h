@@ -5,9 +5,9 @@
 #include <QPoint>
 #include <QColor>
 
-const double screen_distance = 600;
-const int screen_size_x = 600;
-const int screen_size_y = 480;
+const double screen_distance = 700;
+const int screen_size_x = 800;
+const int screen_size_y = 600;
 const int screen_size_x_half = screen_size_x / 2;
 const int screen_size_y_half = screen_size_y / 2;
 

@@ -179,6 +179,11 @@ void Point::rotate_dzx(const double dzx, const Point& center) {
     x = center.get_x() + dx * cos(dzx) + dz * sin(dzx);
 }
 
+Point Point::operator*(const Point& other) const {
+    Point p(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
+    return p;
+}
+
 void Point::print_point() {
     std::cout << x << " " << y << " " << z << std::endl;
 }

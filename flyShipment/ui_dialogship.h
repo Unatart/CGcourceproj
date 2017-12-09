@@ -37,13 +37,13 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *height;
     QLineEdit *lineEdit_h;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *top_w;
-    QLineEdit *lineEdit_wt;
     QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout_6;
     QLabel *bottom_w;
     QLineEdit *lineEdit_wb;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *top_w;
+    QLineEdit *lineEdit_wt;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *verticalSpacer;
     QPushButton *acceptButton;
@@ -95,21 +95,6 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        top_w = new QLabel(verticalLayoutWidget);
-        top_w->setObjectName(QStringLiteral("top_w"));
-
-        horizontalLayout_3->addWidget(top_w);
-
-        lineEdit_wt = new QLineEdit(verticalLayoutWidget);
-        lineEdit_wt->setObjectName(QStringLiteral("lineEdit_wt"));
-
-        horizontalLayout_3->addWidget(lineEdit_wt);
-
-
-        verticalLayout->addLayout(horizontalLayout_3);
-
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
 
@@ -129,6 +114,21 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout_6);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        top_w = new QLabel(verticalLayoutWidget);
+        top_w->setObjectName(QStringLiteral("top_w"));
+
+        horizontalLayout_3->addWidget(top_w);
+
+        lineEdit_wt = new QLineEdit(verticalLayoutWidget);
+        lineEdit_wt->setObjectName(QStringLiteral("lineEdit_wt"));
+
+        horizontalLayout_3->addWidget(lineEdit_wt);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
@@ -161,8 +161,8 @@ public:
         label->setText(QApplication::translate("DialogShip", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\260\320\267\320\274\320\265\321\200\321\213 \321\204\321\216\320\267\320\265\320\273\321\217\320\266\320\260 :", Q_NULLPTR));
         length->setText(QApplication::translate("DialogShip", "\320\224\320\273\320\270\320\275\320\260", Q_NULLPTR));
         height->setText(QApplication::translate("DialogShip", "\320\222\321\213\321\201\320\276\321\202\320\260", Q_NULLPTR));
-        top_w->setText(QApplication::translate("DialogShip", "\320\250\320\270\321\200\320\270\320\275\320\260 \320\275\320\270\320\266\320\275. \320\276\321\201\320\275.", Q_NULLPTR));
         bottom_w->setText(QApplication::translate("DialogShip", "\320\250\320\270\321\200\320\270\320\275\320\260 \320\262\320\265\321\200\321\205. \320\276\321\201\320\275.", Q_NULLPTR));
+        top_w->setText(QApplication::translate("DialogShip", "\320\250\320\270\321\200\320\270\320\275\320\260 \320\275\320\270\320\266\320\275. \320\276\321\201\320\275.", Q_NULLPTR));
         acceptButton->setText(QApplication::translate("DialogShip", "\320\237\321\200\320\270\320\275\321\217\321\202\321\214", Q_NULLPTR));
         backButton->setText(QApplication::translate("DialogShip", "\320\236\321\202\320\274\320\265\320\275\320\260", Q_NULLPTR));
     } // retranslateUi

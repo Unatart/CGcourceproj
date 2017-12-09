@@ -4,6 +4,7 @@
 #include "dialogmodel.h"
 #include "dialogship.h"
 
+#include <list>
 #include "camera.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -27,11 +28,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->about, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->InfoButtons, SIGNAL(triggered()), this, SLOT(info_buttons()));
-    connect(ui->create_model, SIGNAL(triggered()), this, SLOT(create_model()));
-    connect(ui->create_ship, SIGNAL(triggered()), this, SLOT(create_ship()));
-    connect(ui->download_model, SIGNAL(triggered()), this, SLOT(load_model()));
-    connect(ui->download_ship, SIGNAL(triggered()), this, SLOT(load_ship()));
     connect(ui->exit, SIGNAL(triggered()), this, SLOT(close()));
+
+    create_ship();
+
+//    qDebug() << scene.sceneRect();
 }
 
 MainWindow::~MainWindow()
@@ -139,7 +140,6 @@ void MainWindow::load_ship() {
 }
 
 void MainWindow::visualize_model() {
-    scene.clear();
 
     for (Polygon& pol : manager.model.polygons) {
         if (manager.check_visible_m()) {
@@ -155,7 +155,6 @@ void MainWindow::visualize_model() {
 }
 
 void MainWindow::visualize_ship() {
-    scene.clear();
 
     for (Polygon& pol : manager.ship.polygons) {
         if (manager.check_visible_s()) {
@@ -169,7 +168,6 @@ void MainWindow::visualize_ship() {
     }
 }
 
-
 void MainWindow::on_clearScr_clicked()
 {
     scene.clear();
@@ -178,6 +176,7 @@ void MainWindow::on_clearScr_clicked()
 void MainWindow::on_model_toggled(bool checked)
 {
     if (checked) {
+        manager.active_object = &(manager.model);
         visualize_model();
     }
 }
@@ -185,11 +184,13 @@ void MainWindow::on_model_toggled(bool checked)
 void MainWindow::on_ship_toggled(bool checked)
 {
     if (checked) {
+        manager.active_object = &(manager.ship);
         visualize_ship();
     }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
+    scene.clear();
     if (manager.active_object != nullptr) {
         Point zero(0, 0, 0);
         switch(e->key()) {
@@ -294,9 +295,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
         }
     }
 
-    if (ui->zbuffer->isChecked()) {
-
-
+    if (ui->DrawBox->isChecked()) {
+        mydrawZBuffer();
     } else {
         visualize_model();
         visualize_ship();
@@ -304,45 +304,120 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::mydrawZBuffer() {
-    zbuffer.initialize();
+    scene.clear();
+    pixmap->fill(Qt::white);
 
-    std::vector<Polygon> waiting_polygons;
+    std::list<Polygon> waiting_polygons;
     transform_points_for_zbuffer(waiting_polygons);
 
-    std::vector<Polygon> active_polygons;
+    std::list<Polygon> active_polygons;
 
 //    проходимся по каждой строке экрана
     for (int x = 0; x < screen_size_x; ++x) {
+         double real_x = x - screen_size_x_half;
 //        здесь нужно посмотреть в список ждущих полигонов и если минимальное значение х меньше или равно текущему
 //        нужно убрать данный полигон из списка ждущих и добавить его в список активных
-//        если список активных полигонов пуст, скипаем цикл
-        for (int y = 0; y < screen_size_y; ++y) {
-//            проходимся по списку активных полигонов и смотрим глубину пикселя для этого полигона, если она меньше,
-//            чем хранящаяся в zbuffer-е, записываем ее туда вместе с цветом
+        auto it = waiting_polygons.cbegin();
+        while (it != waiting_polygons.cend()) {
+            double min_x = (*it).min_x();
+            if (min_x <= real_x) {
+                active_polygons.push_back(*it);
+                it = waiting_polygons.erase(it);
+            } else {
+                ++it;
+            }
         }
+
+        std::list<Polygon> active_polygons_y;
+        std::list<Polygon> waiting_polygons_y(active_polygons);
+
+//        если список активных полигонов пуст, скипаем цикл
+        if (active_polygons.size() > 0) {
+            for (int y = 0; y < screen_size_y; ++y) {
+                double real_y = y - screen_size_y_half;
+
+                auto it = waiting_polygons_y.cbegin();
+                while (it != waiting_polygons_y.cend()) {
+                    double min_y = (*it).min_y();
+                    if (min_y <= real_y) {
+                        active_polygons_y.push_back(*it);
+                        it = waiting_polygons_y.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+    //            проходимся по списку активных полигонов и смотрим глубину пикселя для этого полигона, если она меньше,
+    //            чем хранящаяся в zbuffer-е, записываем ее туда вместе с цветом
+                if (active_polygons_y.size() > 0) {
+                    double max_depth = std::numeric_limits<double>::lowest();
+                    QColor max_color = Qt::white;
+
+                    for (const Polygon& polygon : active_polygons_y) {
+                        double depth = polygon.depth_of_pixel(real_x, real_y);
+                        if (depth > max_depth && polygon.in_polygon(real_x, real_y)) {
+                            max_depth = depth;
+                            max_color = polygon.polygon_color;
+                        }
+                    }
+
+                    painter->setPen(max_color);
+                    painter->drawPoint(x, y);
+
+                    it = active_polygons_y.cbegin();
+                    while (it != active_polygons_y.cend()) {
+                        double max_y = (*it).max_y();
+                        if (max_y <= real_y) {
+                            it = active_polygons_y.erase(it);
+                        } else {
+                            ++it;
+                        }
+                    }
+                }
+            }
+        }
+
 //        проходимся по списку активных полигонов и смотрим, если максимальный х для полигона равен текущему, то убираем
 //        его из списка активных (в список ждущих НЕ добавляем)
+        it = active_polygons.cbegin();
+        while (it != active_polygons.cend()) {
+            double max_x = (*it).max_x();
+            if (max_x <= real_x) {
+                it = active_polygons.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
+    QGraphicsPixmapItem* it = scene.addPixmap(*pixmap);
+    it->setPos(-screen_size_x / 2, -screen_size_y / 2);
 }
 
-void MainWindow::transform_points_for_zbuffer(std::vector<Polygon>& transformed_polygons) {
+void MainWindow::transform_points_for_zbuffer(std::list<Polygon>& transformed_polygons) {
     for (Polygon& polygon : manager.model.polygons) {
-        Polygon transformed_polygon;
-        for (Point& point : polygon.points) {
-            Point transformed_point = manager.camera.to_screen_3d(point);
-            transformed_polygon.points.push_back(transformed_point);
+        Polygon transformed_polygon(polygon);
+        for (Point& point : transformed_polygon.points) {
+            point = manager.camera.to_screen_3d(point);
         }
-        transformed_polygon.polygon_color = polygon.polygon_color;
         transformed_polygons.push_back(transformed_polygon);
     }
 
     for (Polygon& polygon : manager.ship.polygons) {
-        Polygon transformed_polygon;
-        for (Point& point : polygon.points) {
-            Point transformed_point = manager.camera.to_screen_3d(point);
-            transformed_polygon.points.push_back(transformed_point);
+        Polygon transformed_polygon(polygon);
+        for (Point& point : transformed_polygon.points) {
+            point = manager.camera.to_screen_3d(point);
         }
-        transformed_polygon.polygon_color = polygon.polygon_color;
         transformed_polygons.push_back(transformed_polygon);
     }
+}
+
+
+
+void MainWindow::on_DrawBox_toggled()
+{
+    mydrawZBuffer();
+}
+
+void MainWindow::on_ModelButton_clicked()
+{
+    create_model();
 }

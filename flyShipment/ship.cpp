@@ -9,9 +9,10 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     ship_size.Wt = Wt;
     ship_size.Wb = Wb;
 
-    Point form_point(0, 0, L);
+    Point form_point(0, 0, 0);
 
     Polygon polygon;
+
 
     polygon.points.push_back(form_point);
 
@@ -25,13 +26,14 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     form_point.set_x((Wb - Wt)/2);
     polygon.points.push_back(form_point);
 
+    polygon.polygon_color = Qt::black;
     polygons.push_back(polygon);
 
 //    second polygon
     for (Point& point : polygon.points) {
         point.set_z(point.get_z() + L);
     }
-
+    polygon.polygon_color = Qt::gray;
     polygons.push_back(polygon);
 
 
@@ -48,7 +50,12 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
         polygon.points.push_back(second_poly.points[i]);
         polygon.points.push_back(second_poly.points[first_index]);
 
+        polygon.polygon_color = Qt::gray;
         polygons.push_back(polygon);
+    }
+
+    for (Polygon& polygon : polygons) {
+        polygon.setup_flatness();
     }
 
     center.set(Wb/2, H/2, 1.5*L);
@@ -61,6 +68,7 @@ void Ship::move(double dx, double dy, double dz) {
         for (Point& point : pol.points) {
             point += change;
         }
+        pol.setup_flatness();
     }
 
     center += change;
@@ -79,6 +87,7 @@ void Ship::rotate(double dxy, double dyz, double dzx) {
                 point.rotate_dzx(dzx, center);
             }
         }
+        pol.setup_flatness();
     }
 }
 
@@ -87,6 +96,7 @@ void Ship::resize(double k) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 }
 
@@ -102,7 +112,9 @@ void Ship::rotate(double dxy, double dyz, double dzx, const Point& center) {
             if (dzx != 0) {
                 point.rotate_dzx(dzx, center);
             }
+
         }
+        pol.setup_flatness();
     }
 
     if (dxy != 0) {
@@ -121,6 +133,7 @@ void Ship::resize(double k, const Point& center) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 
     this->center = center + (this->center - center) * k;

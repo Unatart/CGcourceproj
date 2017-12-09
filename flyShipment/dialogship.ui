@@ -59,20 +59,6 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="top_w">
-        <property name="text">
-         <string>Ширина нижн. осн.</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_wt"/>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4"/>
     </item>
     <item>
@@ -86,6 +72,20 @@
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit_wb"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="top_w">
+        <property name="text">
+         <string>Ширина нижн. осн.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_wt"/>
       </item>
      </layout>
     </item>

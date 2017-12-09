@@ -1,9 +1,11 @@
 #include "model.h"
+#include <ctime>
 
 Model::Model(int L, int H, int W) {
     // W - x
     // H - y
     // L - z
+    srand(time(0));
     model_size.H = H;
     model_size.L = L;
     model_size.W = W;
@@ -22,14 +24,14 @@ Model::Model(int L, int H, int W) {
 
     form_point.set_x(0);
     polygon.points.push_back(form_point);
-
+    polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
     polygons.push_back(polygon);
 
 //    second polygon
     for (Point& point : polygon.points) {
         point.set_z(L);
     }
-
+    polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
     polygons.push_back(polygon);
 
 
@@ -46,7 +48,12 @@ Model::Model(int L, int H, int W) {
         polygon.points.push_back(second_pol.points[i]);
         polygon.points.push_back(second_pol.points[first_index]);
 
+        polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
         polygons.push_back(polygon);
+    }
+
+    for (Polygon& polygon : polygons) {
+        polygon.setup_flatness();
     }
 
     center.set(W/2, H/2, L/2);
@@ -59,6 +66,7 @@ void Model::move(double dx, double dy, double dz) {
         for (Point& point : pol.points) {
             point += change;
         }
+        pol.setup_flatness();
     }
 
     center += change;
@@ -78,6 +86,7 @@ void Model::rotate(double dxy, double dyz, double dzx) {
                 point.rotate_dzx(dzx, center);
             }
         }
+        pol.setup_flatness();
     }
 }
 
@@ -86,6 +95,7 @@ void Model::resize(double k) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 }
 
@@ -102,6 +112,7 @@ void Model::rotate(double dxy, double dyz, double dzx, const Point& center) {
                 point.rotate_dzx(dzx, center);
             }
         }
+        pol.setup_flatness();
     }
 
     if (dxy != 0) {
@@ -120,6 +131,7 @@ void Model::resize(double k, const Point& center) {
         for (Point& point : pol.points) {
             point = center + (point - center) * k;
         }
+        pol.setup_flatness();
     }
 
     this->center = center + (this->center - center) * k;
@@ -130,5 +142,6 @@ void Model::printModel() {
         for (Point& point : pol.points) {
             point.print_point();
         }
+        pol.setup_flatness();
     }
 }

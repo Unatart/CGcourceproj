@@ -30,10 +30,10 @@ int DialogShip::Wbvalue() {
 }
 
 void DialogShip::on_acceptButton_clicked() {
-    int L = (ui->lineEdit_l->text().toInt());
-    int H = (ui->lineEdit_h->text().toInt());
-    int Wt = (ui->lineEdit_wb->text().toInt());
-    int Wb = (ui->lineEdit_wt->text().toInt());
+//    int L = (ui->lineEdit_l->text().toInt());
+//    int H = (ui->lineEdit_h->text().toInt());
+//    int Wt = (ui->lineEdit_wb->text().toInt());
+//    int Wb = (ui->lineEdit_wt->text().toInt());
 
 
 //    QString fileName = QFileDialog::getSaveFileName(this,

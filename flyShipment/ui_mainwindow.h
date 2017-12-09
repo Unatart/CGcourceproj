@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
@@ -21,7 +22,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -40,30 +40,30 @@ public:
     QWidget *centralWidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QRadioButton *model;
     QRadioButton *ship;
-    QRadioButton *zbuffer;
+    QRadioButton *model;
+    QCheckBox *DrawBox;
+    QPushButton *ModelButton;
     QPushButton *clearScr;
     QGraphicsView *graphicsView;
     QMenuBar *menuBar;
-    QMenu *menu;
-    QMenu *create_menu;
-    QMenu *download_menu;
     QMenu *Info_menu;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(900, 600);
+        MainWindow->resize(1080, 700);
         exit = new QAction(MainWindow);
         exit->setObjectName(QStringLiteral("exit"));
         about = new QAction(MainWindow);
         about->setObjectName(QStringLiteral("about"));
         InfoButtons = new QAction(MainWindow);
         InfoButtons->setObjectName(QStringLiteral("InfoButtons"));
+        QFont font;
+        font.setPointSize(10);
+        InfoButtons->setFont(font);
         create_model = new QAction(MainWindow);
         create_model->setObjectName(QStringLiteral("create_model"));
         create_ship = new QAction(MainWindow);
@@ -76,65 +76,59 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(640, 360, 241, 141));
+        verticalLayoutWidget->setGeometry(QRect(820, 20, 251, 173));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        model = new QRadioButton(verticalLayoutWidget);
-        model->setObjectName(QStringLiteral("model"));
-
-        verticalLayout->addWidget(model);
-
         ship = new QRadioButton(verticalLayoutWidget);
         ship->setObjectName(QStringLiteral("ship"));
+        QFont font1;
+        font1.setPointSize(11);
+        ship->setFont(font1);
 
         verticalLayout->addWidget(ship);
 
-        zbuffer = new QRadioButton(verticalLayoutWidget);
-        zbuffer->setObjectName(QStringLiteral("zbuffer"));
+        model = new QRadioButton(verticalLayoutWidget);
+        model->setObjectName(QStringLiteral("model"));
+        model->setFont(font1);
 
-        verticalLayout->addWidget(zbuffer);
+        verticalLayout->addWidget(model);
+
+        DrawBox = new QCheckBox(verticalLayoutWidget);
+        DrawBox->setObjectName(QStringLiteral("DrawBox"));
+        DrawBox->setFont(font1);
+
+        verticalLayout->addWidget(DrawBox);
+
+        ModelButton = new QPushButton(verticalLayoutWidget);
+        ModelButton->setObjectName(QStringLiteral("ModelButton"));
+        ModelButton->setFont(font1);
+
+        verticalLayout->addWidget(ModelButton);
 
         clearScr = new QPushButton(verticalLayoutWidget);
         clearScr->setObjectName(QStringLiteral("clearScr"));
+        clearScr->setFont(font1);
 
         verticalLayout->addWidget(clearScr);
 
         graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(10, 30, 600, 480));
+        graphicsView->setGeometry(QRect(10, 20, 800, 600));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 900, 21));
-        menu = new QMenu(menuBar);
-        menu->setObjectName(QStringLiteral("menu"));
-        create_menu = new QMenu(menu);
-        create_menu->setObjectName(QStringLiteral("create_menu"));
-        download_menu = new QMenu(menu);
-        download_menu->setObjectName(QStringLiteral("download_menu"));
+        menuBar->setGeometry(QRect(0, 0, 1080, 21));
         Info_menu = new QMenu(menuBar);
         Info_menu->setObjectName(QStringLiteral("Info_menu"));
         MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
 
-        menuBar->addAction(menu->menuAction());
         menuBar->addAction(Info_menu->menuAction());
-        menu->addAction(create_menu->menuAction());
-        menu->addAction(download_menu->menuAction());
-        menu->addSeparator();
-        menu->addAction(exit);
-        create_menu->addAction(create_model);
-        create_menu->addAction(create_ship);
-        download_menu->addAction(download_model);
-        download_menu->addAction(download_ship);
         Info_menu->addAction(InfoButtons);
         Info_menu->addAction(about);
 
@@ -153,13 +147,11 @@ public:
         create_ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         download_model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         download_ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
-        model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
-        zbuffer->setText(QApplication::translate("MainWindow", "Z-\320\261\321\203\321\204\321\204\320\265\321\200", Q_NULLPTR));
+        model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
+        DrawBox->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", Q_NULLPTR));
+        ModelButton->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214 \320\263\321\200\321\203\320\267", Q_NULLPTR));
         clearScr->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \321\201\321\206\320\265\320\275\321\203", Q_NULLPTR));
-        menu->setTitle(QApplication::translate("MainWindow", "  \320\234\320\265\320\275\321\216", Q_NULLPTR));
-        create_menu->setTitle(QApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\321\202\321\214", Q_NULLPTR));
-        download_menu->setTitle(QApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214", Q_NULLPTR));
         Info_menu->setTitle(QApplication::translate("MainWindow", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\321\217", Q_NULLPTR));
     } // retranslateUi
 

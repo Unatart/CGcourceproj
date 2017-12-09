@@ -42,6 +42,8 @@ class Point
         double scalar(const Point& other) const;
         double angle(const Point& other) const;
 
+        Point operator*(const Point& other) const;
+
         void rotate_dxy(const double dxy, const Point& center);
         void rotate_dyz(const double dyz, const Point& center);
         void rotate_dzx(const double dzx, const Point& center);

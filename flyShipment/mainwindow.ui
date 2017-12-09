@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>600</height>
+    <width>1080</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,36 +17,68 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>360</y>
-      <width>241</width>
-      <height>141</height>
+      <x>820</x>
+      <y>20</y>
+      <width>251</width>
+      <height>173</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QRadioButton" name="model">
-       <property name="text">
-        <string>Модель</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QRadioButton" name="ship">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Фюзеляж</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="zbuffer">
+      <widget class="QRadioButton" name="model">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>Z-буффер</string>
+        <string>Модель</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="DrawBox">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Закрасить</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ModelButton">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Задать груз</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="clearScr">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Очистить сцену</string>
        </property>
@@ -58,9 +90,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>600</width>
-      <height>480</height>
+      <y>20</y>
+      <width>800</width>
+      <height>600</height>
      </rect>
     </property>
    </widget>
@@ -70,33 +102,10 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>1080</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>  Меню</string>
-    </property>
-    <widget class="QMenu" name="create_menu">
-     <property name="title">
-      <string>Создать</string>
-     </property>
-     <addaction name="create_model"/>
-     <addaction name="create_ship"/>
-    </widget>
-    <widget class="QMenu" name="download_menu">
-     <property name="title">
-      <string>Загрузить</string>
-     </property>
-     <addaction name="download_model"/>
-     <addaction name="download_ship"/>
-    </widget>
-    <addaction name="create_menu"/>
-    <addaction name="download_menu"/>
-    <addaction name="separator"/>
-    <addaction name="exit"/>
-   </widget>
    <widget class="QMenu" name="Info_menu">
     <property name="title">
      <string>Информация</string>
@@ -104,16 +113,7 @@
     <addaction name="InfoButtons"/>
     <addaction name="about"/>
    </widget>
-   <addaction name="menu"/>
    <addaction name="Info_menu"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="exit">
@@ -129,6 +129,11 @@
   <action name="InfoButtons">
    <property name="text">
     <string>Управление</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </action>
   <action name="create_model">

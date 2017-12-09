@@ -27,8 +27,8 @@ const double move_speed = 5;
 const double rotate_speed = 0.1;
 const double resize_speed = 1.1;
 
-const int window_size_x = 900;
-const int window_size_y = 600;
+const int window_size_x = 1080;
+const int window_size_y = 700;
 
 namespace Ui {
 class MainWindow;
@@ -67,12 +67,11 @@ private slots:
 
     void keyPressEvent(QKeyEvent*);
 
-//    void drawZBuffer();
-//    void rasterCompareAndDraw(std::vector<Point>, QColor color);
-
     void mydrawZBuffer();
 
-//    void on_zbuffer_toggled(bool checked);
+    void on_DrawBox_toggled();
+
+    void on_ModelButton_clicked();
 
 private:
     Ui::MainWindow* ui;
@@ -88,7 +87,7 @@ private:
 
     ZBuffer zbuffer;
 
-    void transform_points_for_zbuffer(std::vector<Polygon> &transformed_polygons);
+    void transform_points_for_zbuffer(std::list<Polygon> &transformed_polygons);
 };
 
 #endif // MAINWINDOW_H
