@@ -191,13 +191,14 @@ void MainWindow::on_ship_toggled(bool checked)
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
     scene.clear();
-    if (manager.active_object != nullptr) {
+    if (manager.active_object != nullptr && !(ui->moveBox->isChecked())) {
         Point zero(0, 0, 0);
         switch(e->key()) {
 //			move
             case Qt::Key_Q :
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(0, 0, -move_speed);
+                    manager.ship.move(0, 0, -move_speed);
                 } else {
                     manager.active_object->move(0, 0, -move_speed);
                 }
@@ -206,6 +207,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_E:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(0, 0, move_speed);
+                    manager.ship.move(0, 0, move_speed);
                 } else {
                     manager.active_object->move(0, 0, move_speed);
                 }
@@ -213,6 +215,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_W:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(0, move_speed, 0);
+                    manager.ship.move(0, move_speed, 0);
                 } else {
                     manager.active_object->move(0, -move_speed, 0);
                 }
@@ -220,6 +223,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_S:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(0, -move_speed, 0);
+                    manager.ship.move(0, -move_speed, 0);
                 } else {
                     manager.active_object->move(0, move_speed, 0);
                 }
@@ -228,6 +232,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_A :
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(move_speed, 0, 0);
+                    manager.ship.move(move_speed, 0, 0);
                 } else {
                     manager.active_object->move(-move_speed, 0, 0);
                 }
@@ -236,6 +241,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_D:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.move(-move_speed, 0, 0);
+                    manager.ship.move(-move_speed, 0, 0);
                 } else {
                     manager.active_object->move(move_speed, 0, 0);
                 }
@@ -244,6 +250,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_K:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(0, -rotate_speed, 0, zero);
+                    manager.ship.rotate(0, -rotate_speed, 0, zero);
                 } else {
                     manager.active_object->rotate(0, rotate_speed, 0);
                 }
@@ -251,6 +258,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_I:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(0, rotate_speed, 0, zero);
+                    manager.ship.rotate(0, rotate_speed, 0, zero);
                 } else {
                     manager.active_object->rotate(0, -rotate_speed, 0);
                 }
@@ -258,6 +266,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_L:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(0, 0, -rotate_speed, zero);
+                    manager.ship.rotate(0, 0, -rotate_speed, zero);
                 } else {
                     manager.active_object->rotate(0, 0, rotate_speed);
                 }
@@ -265,6 +274,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_J:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(0, 0, rotate_speed, zero);
+                    manager.ship.rotate(0, 0, rotate_speed, zero);
                 } else {
                     manager.active_object->rotate(0, 0, -rotate_speed);
                 }
@@ -272,6 +282,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_O:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(-rotate_speed, 0, 0, zero);
+                    manager.ship.rotate(-rotate_speed, 0, 0, zero);
                 } else {
                     manager.active_object->rotate(-rotate_speed, 0, 0);
                 }
@@ -279,6 +290,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             case Qt::Key_U:
                 if (e->modifiers() & Qt::ShiftModifier) {
                     manager.model.rotate(rotate_speed, 0, 0, zero);
+                    manager.ship.rotate(rotate_speed, 0, 0, zero);
                 } else {
                     manager.active_object->rotate(rotate_speed, 0, 0);
                 }
@@ -293,7 +305,23 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             default:
                 break;
         }
+    } else if (manager.active_object != nullptr && ui->moveBox->isChecked()) {
+        double x = manager.ship.front_vector.get_x();
+        double y = manager.ship.front_vector.get_y();
+        double z = manager.ship.front_vector.get_z();
+        double way = sqrt(x*x + y*y + z*z);
+        double speedbyway = move_speed/way;
+        switch(e->key()) {
+//			move
+            case Qt::Key_W:
+                    manager.model.move(x * speedbyway, y * speedbyway, z * speedbyway);
+                break;
+            case Qt::Key_S:
+                    manager.model.move(-x * speedbyway, -y * speedbyway, -z * speedbyway);
+                break;
+        }
     }
+
     if (manager.model.insideShip(manager.ship) == true) {
         manager.model.setColor(Qt::green);
     } else {

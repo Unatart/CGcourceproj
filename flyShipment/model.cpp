@@ -70,8 +70,8 @@ void Model::setColor(QColor color) {
 //        auto rp = red_color_polygons.begin();
 //        auto p = polygons.begin();
 
-//        if (!red_color_polygons.empty()) {
 //            while (rp != red_color_polygons.end() && p != polygons.end()) {
+    //        if (!red_color_polygons.empty()) {
 //                p.polygon_color = rp.polygon_color;
 //            }
 //        }
