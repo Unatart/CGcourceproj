@@ -19,6 +19,9 @@ public:
     double depth_of_pixel(int x, int y) const;
     bool in_polygon(const Point& p) const;
 
+    bool infront(const Point& p) const;
+    bool behind(const Point& p) const;
+
     bool in_polygon(int x, int y) const;
 
     double min_x() const;

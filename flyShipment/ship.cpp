@@ -12,8 +12,6 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     Point form_point(0, 0, 0);
 
     Polygon polygon;
-
-
     polygon.points.push_back(form_point);
 
     form_point.set_x(Wb);
@@ -26,14 +24,14 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     form_point.set_x((Wb - Wt)/2);
     polygon.points.push_back(form_point);
 
-    polygon.polygon_color = Qt::black;
+    polygon.polygon_color = Qt::gray;
     polygons.push_back(polygon);
 
 //    second polygon
     for (Point& point : polygon.points) {
         point.set_z(point.get_z() + L);
     }
-    polygon.polygon_color = Qt::gray;
+    polygon.polygon_color = Qt::black;
     polygons.push_back(polygon);
 
 
@@ -59,6 +57,13 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
     }
 
     center.set(Wb/2, H/2, 1.5*L);
+    front.set(Wb/2, H/2, 0);
+
+    front_vector.set(front.get_x() - center.get_x(), front.get_y() - center.get_y(), front.get_z() - center.get_z());
+}
+
+Point Ship::get_center() {
+    return center;
 }
 
 void Ship::move(double dx, double dy, double dz) {

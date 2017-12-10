@@ -15,6 +15,7 @@ struct ship_sizes {
 class Ship : public SceneObject{
 public:
     void createShip(int L, int H, int Wt, int Wb);
+    Point get_center();
 
     void move(double dx, double dy, double dz);
 
@@ -25,10 +26,13 @@ public:
     void resize(double k, const Point& center);
 
     std::vector<Polygon> polygons;
+    Point front_vector;
 
 private:
     ship_sizes ship_size;
     Point center;
+    Point front;
+
 };
 
 

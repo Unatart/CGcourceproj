@@ -60,6 +60,18 @@ bool Polygon::in_polygon(const Point& p) const {
     return true;
 }
 
+bool Polygon::infront(const Point& p) const {
+    if ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) > 0)
+        return true;
+    return false;
+}
+
+bool Polygon::behind(const Point& p) const {
+    if ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) < 0)
+        return true;
+    return false;
+}
+
 bool Polygon::in_polygon(int x, int y) const {
 
     auto it = points.crbegin();

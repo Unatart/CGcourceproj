@@ -24,14 +24,12 @@ Model::Model(int L, int H, int W) {
 
     form_point.set_x(0);
     polygon.points.push_back(form_point);
-    polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
     polygons.push_back(polygon);
 
 //    second polygon
     for (Point& point : polygon.points) {
         point.set_z(L);
     }
-    polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
     polygons.push_back(polygon);
 
 
@@ -48,7 +46,6 @@ Model::Model(int L, int H, int W) {
         polygon.points.push_back(second_pol.points[i]);
         polygon.points.push_back(second_pol.points[first_index]);
 
-        polygon.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
         polygons.push_back(polygon);
     }
 
@@ -57,6 +54,51 @@ Model::Model(int L, int H, int W) {
     }
 
     center.set(W/2, H/2, L/2);
+}
+
+void Model::setColor(QColor color) {
+    for (Polygon &p: polygons) {
+        if (color == Qt::red) {
+            p.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
+        }
+        if (color == Qt::green) {
+            p.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
+        }
+    }
+
+//    if (color == Qt::red) {
+//        auto rp = red_color_polygons.begin();
+//        auto p = polygons.begin();
+
+//        if (!red_color_polygons.empty()) {
+//            while (rp != red_color_polygons.end() && p != polygons.end()) {
+//                p.polygon_color = rp.polygon_color;
+//            }
+//        }
+//        else {
+//            while (rp != red_color_polygons.end() && p != polygons.end()) {
+//                rp.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
+//                p.polygon_color = rp.polygon_color;
+//            }
+//        }
+//    }
+
+//    if (color == Qt::green) {
+//        auto gp = green_color_polygons.begin();
+//        auto p = polygons.begin();
+
+//        if (!green_color_polygons.empty()) {
+//            while (gp != green_color_polygons.end() && p != polygons.end()) {
+//                p.polygon_color = gp.polygon_color;
+//            }
+//        }
+//        else {
+//            while (gp != green_color_polygons.end() && p != polygons.end()) {
+//                gp.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
+//                p.polygon_color = gp.polygon_color;
+//            }
+//        }
+//    }
 }
 
 void Model::move(double dx, double dy, double dz) {
@@ -144,4 +186,22 @@ void Model::printModel() {
         }
         pol.setup_flatness();
     }
+}
+
+bool Model::insideShip(Ship& plane) {
+    bool inside = true;
+
+    for(Polygon& plane_pol : plane.polygons) {
+        for(Polygon& pol : polygons) {
+            for (Point& point : pol.points) {
+                if ((plane_pol.infront(plane.get_center()) != plane_pol.infront(point)) ||
+                            (plane_pol.behind(plane.get_center()) != plane_pol.behind(point))) {
+                    inside = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    return inside;
 }

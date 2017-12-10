@@ -61,6 +61,18 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="moveBox">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Двигать только вдоль груза</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ModelButton">
        <property name="font">
         <font>

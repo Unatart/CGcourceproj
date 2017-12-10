@@ -294,6 +294,11 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
         }
     }
+    if (manager.model.insideShip(manager.ship) == true) {
+        manager.model.setColor(Qt::green);
+    } else {
+        manager.model.setColor(Qt::red);
+    }
 
     if (ui->DrawBox->isChecked()) {
         mydrawZBuffer();
@@ -305,7 +310,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 
 void MainWindow::mydrawZBuffer() {
     scene.clear();
-    pixmap->fill(Qt::white);
+    pixmap->fill(QColor(234, 238, 242));
 
     std::list<Polygon> waiting_polygons;
     transform_points_for_zbuffer(waiting_polygons);
@@ -350,7 +355,7 @@ void MainWindow::mydrawZBuffer() {
     //            чем хранящаяся в zbuffer-е, записываем ее туда вместе с цветом
                 if (active_polygons_y.size() > 0) {
                     double max_depth = std::numeric_limits<double>::lowest();
-                    QColor max_color = Qt::white;
+                    QColor max_color = QColor(234, 238, 242);
 
                     for (const Polygon& polygon : active_polygons_y) {
                         double depth = polygon.depth_of_pixel(real_x, real_y);
