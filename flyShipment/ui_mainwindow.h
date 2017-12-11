@@ -43,7 +43,6 @@ public:
     QRadioButton *ship;
     QRadioButton *model;
     QCheckBox *DrawBox;
-    QCheckBox *moveBox;
     QPushButton *ModelButton;
     QPushButton *clearScr;
     QGraphicsView *graphicsView;
@@ -103,12 +102,6 @@ public:
 
         verticalLayout->addWidget(DrawBox);
 
-        moveBox = new QCheckBox(verticalLayoutWidget);
-        moveBox->setObjectName(QStringLiteral("moveBox"));
-        moveBox->setFont(font1);
-
-        verticalLayout->addWidget(moveBox);
-
         ModelButton = new QPushButton(verticalLayoutWidget);
         ModelButton->setObjectName(QStringLiteral("ModelButton"));
         ModelButton->setFont(font1);
@@ -157,7 +150,6 @@ public:
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         DrawBox->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", Q_NULLPTR));
-        moveBox->setText(QApplication::translate("MainWindow", "\320\224\320\262\320\270\320\263\320\260\321\202\321\214 \321\202\320\276\320\273\321\214\320\272\320\276 \320\262\320\264\320\276\320\273\321\214 \320\263\321\200\321\203\320\267\320\260", Q_NULLPTR));
         ModelButton->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214 \320\263\321\200\321\203\320\267", Q_NULLPTR));
         clearScr->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \321\201\321\206\320\265\320\275\321\203", Q_NULLPTR));
         Info_menu->setTitle(QApplication::translate("MainWindow", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\321\217", Q_NULLPTR));

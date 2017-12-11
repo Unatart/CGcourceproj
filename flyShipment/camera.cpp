@@ -23,6 +23,16 @@ Point Camera::to_screen_3d(const Point& p)
     return point;
 }
 
+Point Camera::from_screen_3d(const Point& p)
+{
+	double k = 1;
+	if (p.get_z() != coordinates.get_z()) {
+		k = 1 - p.get_z() / coordinates.get_z();
+	}
+	Point point(p.get_x() * k, p.get_y() * k, p.get_z() * k);
+	return point;
+}
+
 bool Camera::point_visible(const Point &p) const
 {
     Point check(p - coordinates);

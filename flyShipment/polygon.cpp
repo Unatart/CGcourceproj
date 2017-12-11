@@ -23,15 +23,19 @@ void Polygon::setup_flatness()
     result.d = - (base[0].get_x() * result.a + base[0].get_y() * result.b + \
             base[0].get_z() * result.c);
 
-    flatness = result;
+	flatness = result;
 }
 
 double Polygon::depth_of_pixel(int x, int y) const {
-    double depth = 0;
-//    todo
-    if (fabs(flatness.c) < ACC) {
-        return std::numeric_limits<double>::max();
+	double depth = std::numeric_limits<double>::lowest();
+
+	if (fabs(flatness.c) < ACC) {
+		for (const Point& p : points) {
+			depth = std::max(p.get_z(), depth);
+		}
+		return depth;
     }
+
     depth = -(flatness.a*x + flatness.b*y + flatness.d)/ flatness.c;
 
     return depth;
@@ -50,11 +54,14 @@ bool Polygon::in_polygon(const Point& p) const {
         vec1 = *it2 - *it;
         vec2 = p - *it;
 
-        Point second = vec1 * vec2;
-        if (first.scalar(second) < 0) {
-            return false;
-        }
+		Point second = vec1 * vec2;
+
+		double mult_z = first.get_z() * second.get_z();
+		if (mult_z <= 0) {
+			return false;
+		}
         first = second;
+
     }
 
     return true;
@@ -90,7 +97,7 @@ bool Polygon::in_polygon(int x, int y) const {
         vec2.set_y(y - (*it1).get_y());
 
         Point second(vec1 * vec2);
-        if (second.get_z() * first.get_z() < 0) {
+		if (second.get_z() * first.get_z() <= 0) {
             return false;
         }
         first = second;

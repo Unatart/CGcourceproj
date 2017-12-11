@@ -30,7 +30,7 @@ Model::Model(int L, int H, int W) {
     for (Point& point : polygon.points) {
         point.set_z(L);
     }
-    polygons.push_back(polygon);
+	polygons.push_back(polygon);
 
 
 //    side polygons
@@ -46,7 +46,7 @@ Model::Model(int L, int H, int W) {
         polygon.points.push_back(second_pol.points[i]);
         polygon.points.push_back(second_pol.points[first_index]);
 
-        polygons.push_back(polygon);
+		polygons.push_back(polygon);
     }
 
     for (Polygon& polygon : polygons) {
@@ -58,11 +58,19 @@ Model::Model(int L, int H, int W) {
 
 void Model::setColor(QColor color) {
     for (Polygon &p: polygons) {
+		Point view(0, 0, -1);
+
+		double angle = view.angle(p.flatness.normal());
+		if (angle > M_PI_2) {
+			angle = M_PI - angle;
+		}
+
+		double measure = cos(angle);
         if (color == Qt::red) {
-            p.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
+			p.polygon_color =  QColor(155 + 100 * measure, 0, 0);
         }
         if (color == Qt::green) {
-            p.polygon_color = QColor(rand()%(200 - 100 + 1) + 100, 255, rand()%(200 - 100 + 1) + 100);
+			p.polygon_color = QColor(0, 155 + 100 * measure, 0);\
         }
     }
 
@@ -79,7 +87,7 @@ void Model::setColor(QColor color) {
 //            while (rp != red_color_polygons.end() && p != polygons.end()) {
 //                rp.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
 //                p.polygon_color = rp.polygon_color;
-//            }
+//            } 
 //        }
 //    }
 

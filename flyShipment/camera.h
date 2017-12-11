@@ -18,6 +18,8 @@ public:
     Camera(const Point& coordinates, const Point& direction);
     QPoint to_screen(const Point& p);
     Point to_screen_3d(const Point& point);
+
+	Point from_screen_3d(const Point& p);
     bool point_visible(const Point& p) const;
 
     Point coordinates;

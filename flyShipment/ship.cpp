@@ -29,7 +29,7 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
 
 //    second polygon
     for (Point& point : polygon.points) {
-        point.set_z(L);
+        point.set_z(point.get_z() + L);
     }
     polygon.polygon_color = Qt::black;
     polygons.push_back(polygon);
@@ -56,10 +56,10 @@ void Ship::createShip(int L, int H, int Wt, int Wb) {
         polygon.setup_flatness();
     }
 
-    center.set(Wb/2, H/2, L/2);
-    front.set(Wb/2, H/2, L);
+    center.set(Wb/2, H/2, 1.5*L);
+    front.set(Wb/2, H/2, 0);
 
-    front_vector.set(center.get_x() - front.get_x(), center.get_y() - front.get_y(), center.get_z() - front.get_z());
+    front_vector.set(front.get_x() - center.get_x(), front.get_y() - center.get_y(), front.get_z() - center.get_z());
 }
 
 Point Ship::get_center() {
@@ -77,8 +77,6 @@ void Ship::move(double dx, double dy, double dz) {
     }
 
     center += change;
-    front += change;
-    front_vector.set(center.get_x() - front.get_x(), center.get_y() - front.get_y(), center.get_z() - front.get_z());
 }
 
 void Ship::rotate(double dxy, double dyz, double dzx) {
@@ -133,18 +131,6 @@ void Ship::rotate(double dxy, double dyz, double dzx, const Point& center) {
     if (dzx != 0) {
         this->center.rotate_dzx(dzx, center);
     }
-
-    if (dxy != 0) {
-        this->front.rotate_dxy(dxy, center);
-    }
-    if (dyz != 0) {
-        this->front.rotate_dyz(dyz, center);
-    }
-    if (dzx != 0) {
-        this->front.rotate_dzx(dzx, center);
-    }
-
-    front_vector.set(this->center.get_x() - front.get_x(), this->center.get_y() - front.get_y(), this->center.get_z() - front.get_z());
 }
 
 void Ship::resize(double k, const Point& center) {
@@ -156,7 +142,4 @@ void Ship::resize(double k, const Point& center) {
     }
 
     this->center = center + (this->center - center) * k;
-    this->front = center + (this->front - center) * k;
-
-    front_vector.set(this->center.get_x() - front.get_x(), this->center.get_y() - front.get_y(), this->center.get_z() - front.get_z());
 }
