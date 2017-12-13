@@ -15,22 +15,24 @@ QPoint Camera::to_screen(const Point& p)
 
 Point Camera::to_screen_3d(const Point& p)
 {
-    double k = 1;
+
     if (p.get_z() != coordinates.get_z()) {
-        k = 1 - p.get_z() / coordinates.get_z();
+        double k = 1 - p.get_z() / coordinates.get_z();
+        Point point(p.get_x() / k, p.get_y() / k, p.get_z() / k);
+        return point;
     }
-    Point point(p.get_x() / k, p.get_y() / k, p.get_z());
-    return point;
+    return p;
+
 }
 
 Point Camera::from_screen_3d(const Point& p)
 {
-	double k = 1;
-	if (p.get_z() != coordinates.get_z()) {
-		k = 1 - p.get_z() / coordinates.get_z();
-	}
-	Point point(p.get_x() * k, p.get_y() * k, p.get_z() * k);
-	return point;
+    if (p.get_z() != coordinates.get_z()) {
+        double k = 1 - p.get_z() / (coordinates.get_z() + p.get_z());
+        Point point(p.get_x() * k, p.get_y() * k, p.get_z() * k);
+        return point;
+    }
+    return p;
 }
 
 bool Camera::point_visible(const Point &p) const

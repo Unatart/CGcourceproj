@@ -157,7 +157,7 @@ public:
 
     void retranslateUi(QDialog *DialogShip)
     {
-        DialogShip->setWindowTitle(QApplication::translate("DialogShip", "Dialog", Q_NULLPTR));
+        DialogShip->setWindowTitle(QApplication::translate("DialogShip", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\260\320\267\320\274\320\265\321\200\321\213 \321\204\321\216\320\267\320\265\320\273\321\217\320\266\320\260", Q_NULLPTR));
         label->setText(QApplication::translate("DialogShip", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\260\320\267\320\274\320\265\321\200\321\213 \321\204\321\216\320\267\320\265\320\273\321\217\320\266\320\260 :", Q_NULLPTR));
         length->setText(QApplication::translate("DialogShip", "\320\224\320\273\320\270\320\275\320\260", Q_NULLPTR));
         height->setText(QApplication::translate("DialogShip", "\320\222\321\213\321\201\320\276\321\202\320\260", Q_NULLPTR));

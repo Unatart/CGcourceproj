@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QString>
 
+#include <QIntValidator>
+
 namespace Ui {
 class DialogShip;
 }

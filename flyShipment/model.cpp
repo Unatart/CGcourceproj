@@ -197,19 +197,14 @@ void Model::printModel() {
 }
 
 bool Model::insideShip(Ship& plane) {
-    bool inside = true;
-
     for(Polygon& plane_pol : plane.polygons) {
         for(Polygon& pol : polygons) {
             for (Point& point : pol.points) {
-                if ((plane_pol.infront(plane.get_center()) != plane_pol.infront(point)) ||
-                            (plane_pol.behind(plane.get_center()) != plane_pol.behind(point))) {
-                    inside = false;
-                    break;
+                if (plane_pol.infront(plane.get_center()) != plane_pol.infront(point)) {
+                    return false;
                 }
             }
         }
     }
-
-    return inside;
+    return true;
 }

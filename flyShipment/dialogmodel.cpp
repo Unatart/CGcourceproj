@@ -6,6 +6,9 @@ DialogModel::DialogModel(QWidget *parent) :
     ui(new Ui::DialogModel)
 {
     ui->setupUi(this);
+    ui->lineEdit_L->setValidator(new QIntValidator);
+    ui->lineEdit_H->setValidator(new QIntValidator);
+    ui->lineEdit_W->setValidator(new QIntValidator);
 }
 
 DialogModel::~DialogModel()

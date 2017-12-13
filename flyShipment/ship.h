@@ -16,6 +16,7 @@ class Ship : public SceneObject{
 public:
     void createShip(int L, int H, int Wt, int Wb);
     Point get_center();
+    void setColor();
 
     void move(double dx, double dy, double dz);
 

@@ -68,15 +68,11 @@ bool Polygon::in_polygon(const Point& p) const {
 }
 
 bool Polygon::infront(const Point& p) const {
-    if ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) > 0)
-        return true;
-    return false;
+    return ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) > 0);
 }
 
 bool Polygon::behind(const Point& p) const {
-    if ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) < 0)
-        return true;
-    return false;
+    return ((flatness.a * p.get_x() + flatness.b * p.get_y() + flatness.c * p.get_z() + flatness.d) < 0);
 }
 
 bool Polygon::in_polygon(int x, int y) const {
@@ -97,7 +93,8 @@ bool Polygon::in_polygon(int x, int y) const {
         vec2.set_y(y - (*it1).get_y());
 
         Point second(vec1 * vec2);
-		if (second.get_z() * first.get_z() <= 0) {
+        double z_mult = second.get_z() * first.get_z();
+        if (z_mult < 0 || (z_mult == 0 && vec1.distance_zero() < vec2.distance_zero())) {
             return false;
         }
         first = second;

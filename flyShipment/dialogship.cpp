@@ -6,6 +6,11 @@ DialogShip::DialogShip(QWidget *parent) :
     ui(new Ui::DialogShip)
 {
     ui->setupUi(this);
+    ui->lineEdit_l->setValidator(new QIntValidator);
+    ui->lineEdit_h->setValidator(new QIntValidator);
+    ui->lineEdit_wb->setValidator(new QIntValidator);
+    ui->lineEdit_wt->setValidator(new QIntValidator);
+
 }
 
 DialogShip::~DialogShip()
@@ -30,37 +35,6 @@ int DialogShip::Wbvalue() {
 }
 
 void DialogShip::on_acceptButton_clicked() {
-//    int L = (ui->lineEdit_l->text().toInt());
-//    int H = (ui->lineEdit_h->text().toInt());
-//    int Wt = (ui->lineEdit_wb->text().toInt());
-//    int Wb = (ui->lineEdit_wt->text().toInt());
-
-
-//    QString fileName = QFileDialog::getSaveFileName(this,
-//                       tr("Save ship"), "",
-//                       tr("Txt file (*.txt);;All Files (*)"));
-
-
-//    QFile outFile(fileName);
-//    outFile.open(QIODevice::WriteOnly | QIODevice::Text);
-
-//    if(!outFile.isOpen()){
-//        std::cerr <<  "Error, unable to open file";
-//    }
-
-//    QTextStream outStream(&outFile);
-//    outStream << L;
-//    outStream << " ";
-//    outStream << H;
-//    outStream << " ";
-//    outStream << Wt;
-//    outStream << " ";
-//    outStream << Wb;
-//    outStream << " ";
-//    outStream << "\n";
-
-//    outFile.close();
-
     close();
 }
 

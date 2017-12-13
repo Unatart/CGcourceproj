@@ -23,12 +23,11 @@
 #include "manager.h"
 #include "zbuffer.h"
 
-const double move_speed = 5;
 const double rotate_speed = 0.1;
 const double resize_speed = 1.1;
 
 const int window_size_x = 1080;
-const int window_size_y = 700;
+const int window_size_y = 665;
 
 namespace Ui {
 class MainWindow;
@@ -73,6 +72,12 @@ private slots:
 
     void on_ModelButton_clicked();
 
+    void on_ShipButton_clicked();
+
+    void on_DrawBox_clicked();
+
+    void updateSliderBPos(int value);
+
 private:
     Ui::MainWindow* ui;
 
@@ -86,6 +91,7 @@ private:
     ship_sizes ship_s;
 
     ZBuffer zbuffer;
+    double move_speed = 5;
 
     void transform_points_for_zbuffer(std::list<Polygon> &transformed_polygons);
 };

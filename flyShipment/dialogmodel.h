@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QIntValidator>
 
 namespace Ui {
 class DialogModel;

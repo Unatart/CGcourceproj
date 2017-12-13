@@ -129,7 +129,7 @@ public:
 
     void retranslateUi(QDialog *DialogModel)
     {
-        DialogModel->setWindowTitle(QApplication::translate("DialogModel", "Dialog", Q_NULLPTR));
+        DialogModel->setWindowTitle(QApplication::translate("DialogModel", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\260\320\267\320\274\320\265\321\200\321\213 \320\274\320\276\320\264\320\265\320\273\320\270", Q_NULLPTR));
         label_4->setText(QApplication::translate("DialogModel", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\260\320\267\320\274\320\265\321\200\321\213 \320\274\320\276\320\264\320\265\320\273\320\270 :", Q_NULLPTR));
         label->setText(QApplication::translate("DialogModel", "\320\224\320\273\320\270\320\275\320\260", Q_NULLPTR));
         label_2->setText(QApplication::translate("DialogModel", "\320\250\320\270\321\200\320\270\320\275\320\260", Q_NULLPTR));
