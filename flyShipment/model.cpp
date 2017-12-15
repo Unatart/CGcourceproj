@@ -56,6 +56,34 @@ Model::Model(int L, int H, int W) {
     center.set(W/2, H/2, L/2);
 }
 
+Model::Model(const Model &other) {
+    this->model_size.H = other.model_size.H;
+    this->model_size.L = other.model_size.L;
+    this->model_size.W = other.model_size.W;
+
+    this->center = other.center;
+    this->polygons = other.polygons;
+}
+
+Point Model::get_center() {
+    return center;
+}
+
+Model& Model::operator =(const Model &other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    this->model_size.H = other.model_size.H;
+    this->model_size.L = other.model_size.L;
+    this->model_size.W = other.model_size.W;
+
+    this->center = other.center;
+    this->polygons = other.polygons;
+
+    return *this;
+}
+
 void Model::setColor(QColor color) {
     for (Polygon &p: polygons) {
 		Point view(0, 0, -1);

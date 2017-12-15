@@ -15,12 +15,15 @@ class Manager {
 public:
     Manager();
 
-    bool check_visible_m();
-    bool check_visible_s();
+    void add_model(const Model& model);
+
+    bool check_visible_m(const Model& model) const;
+    bool check_visible_s() const;
+    int num_of_models();
 
     Camera camera;
 
-    Model model;
+    std::vector<Model> model_list;
     Ship ship;
 
     SceneObject* active_object = nullptr;

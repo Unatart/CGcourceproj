@@ -91,20 +91,8 @@
        <property name="checkable">
         <bool>true</bool>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="model">
-       <property name="enabled">
+       <property name="checked">
         <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Модель</string>
        </property>
       </widget>
      </item>
@@ -122,6 +110,32 @@
         <string>Камера</string>
        </property>
        <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="models">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Грузы</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Грузы:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="modelList">
+       <property name="enabled">
         <bool>true</bool>
        </property>
       </widget>

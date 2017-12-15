@@ -4,9 +4,13 @@ Manager::Manager():
     camera(p_c, p_d),
     active_object(nullptr){}
 
-bool Manager::check_visible_m() {
-    for(Polygon& pol : model.polygons) {
-        for (Point& point : pol.points) {
+void Manager::add_model(const Model &model) {
+    this->model_list.push_back(model);
+}
+
+bool Manager::check_visible_m(const Model &model) const {
+    for(const Polygon& pol : model.polygons) {
+        for (const Point& point : pol.points) {
             if (!camera.point_visible(point)) {
                 return false;
             }
@@ -15,13 +19,17 @@ bool Manager::check_visible_m() {
     return true;
 }
 
-bool Manager::check_visible_s() {
-    for(Polygon& pol : ship.polygons) {
-        for (Point& point : pol.points) {
+bool Manager::check_visible_s() const {
+    for(const Polygon& pol : ship.polygons) {
+        for (const Point& point : pol.points) {
             if (!camera.point_visible(point)) {
                 return false;
             }
         }
     }
     return true;
+}
+
+int Manager::num_of_models() {
+    return this->model_list.size();
 }

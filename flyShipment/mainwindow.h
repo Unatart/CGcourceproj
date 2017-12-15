@@ -56,11 +56,11 @@ private slots:
 
     void create_model();
 
+    void add_model(Model& model);
+
     void create_ship();
 
     void on_clearScr_clicked();
-    
-    void on_model_toggled(bool checked);
 
     void on_ship_toggled(bool checked);
 
@@ -77,6 +77,14 @@ private slots:
     void on_DrawBox_clicked();
 
     void updateSliderBPos(int value);
+
+    void on_modelList_currentRowChanged(int currentRow);
+
+    void on_modelList_clicked(const QModelIndex &index);
+
+    void on_models_toggled(bool checked);
+
+    bool able_to_move(Model& new_model);
 
 private:
     Ui::MainWindow* ui;

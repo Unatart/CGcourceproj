@@ -30,9 +30,9 @@ int DialogModel::Wvalue() {
 
 void DialogModel::on_acceptButton_clicked()
 {
-    int L = (ui->lineEdit_L->text().toInt());
-    int H = (ui->lineEdit_H->text().toInt());
-    int W = (ui->lineEdit_W->text().toInt());
+//    int L = (ui->lineEdit_L->text().toInt());
+//    int H = (ui->lineEdit_H->text().toInt());
+//    int W = (ui->lineEdit_W->text().toInt());
 
 
 //    QString fileName = QFileDialog::getSaveFileName(this,

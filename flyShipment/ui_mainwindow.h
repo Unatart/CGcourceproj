@@ -17,6 +17,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -48,8 +49,10 @@ public:
     QSpacerItem *verticalSpacer;
     QLabel *label_3;
     QRadioButton *ship;
-    QRadioButton *model;
     QRadioButton *cameraButton;
+    QRadioButton *models;
+    QLabel *label_4;
+    QListWidget *modelList;
     QLabel *label;
     QLabel *label_2;
     QSlider *horizontalSlider;
@@ -126,15 +129,9 @@ public:
         ship->setEnabled(true);
         ship->setFont(font1);
         ship->setCheckable(true);
+        ship->setChecked(true);
 
         verticalLayout->addWidget(ship);
-
-        model = new QRadioButton(verticalLayoutWidget);
-        model->setObjectName(QStringLiteral("model"));
-        model->setEnabled(true);
-        model->setFont(font1);
-
-        verticalLayout->addWidget(model);
 
         cameraButton = new QRadioButton(verticalLayoutWidget);
         cameraButton->setObjectName(QStringLiteral("cameraButton"));
@@ -143,6 +140,23 @@ public:
         cameraButton->setCheckable(true);
 
         verticalLayout->addWidget(cameraButton);
+
+        models = new QRadioButton(verticalLayoutWidget);
+        models->setObjectName(QStringLiteral("models"));
+        models->setFont(font1);
+
+        verticalLayout->addWidget(models);
+
+        label_4 = new QLabel(verticalLayoutWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        verticalLayout->addWidget(label_4);
+
+        modelList = new QListWidget(verticalLayoutWidget);
+        modelList->setObjectName(QStringLiteral("modelList"));
+        modelList->setEnabled(true);
+
+        verticalLayout->addWidget(modelList);
 
         label = new QLabel(verticalLayoutWidget);
         label->setObjectName(QStringLiteral("label"));
@@ -225,8 +239,9 @@ public:
         ModelButton->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\264\320\260\321\202\321\214 \320\263\321\200\321\203\320\267", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "\320\220\320\272\321\202\320\270\320\262\320\275\321\213\320\271 \320\276\320\261\321\212\320\265\320\272\321\202:", Q_NULLPTR));
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
-        model->setText(QApplication::translate("MainWindow", "\320\234\320\276\320\264\320\265\320\273\321\214", Q_NULLPTR));
         cameraButton->setText(QApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\320\260", Q_NULLPTR));
+        models->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213:", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214 \320\264\320\262\320\270\320\266\320\265\320\275\320\270\321\217 \320\276\320\261\321\212\320\265\320\272\321\202\320\276\320\262", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "5", Q_NULLPTR));
         DrawBox->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", Q_NULLPTR));

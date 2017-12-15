@@ -18,6 +18,10 @@ public:
     Model() = default;
     Model(int L, int H, int W);
 
+    Model(const Model& other);
+    Model& operator =(const Model& other);
+    Point get_center();
+
     void setColor(QColor color);
 
     bool insideShip(Ship &plane);
@@ -37,9 +41,6 @@ public:
 private:
     sizes model_size;
     Point center;
-    std::vector<Polygon> green_color_polygons;
-    std::vector<Polygon> red_color_polygons;
-
 };
 
 

@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateSliderBPos(int)));
     setFixedSize(window_size_x, window_size_y);
 
-    ui->model->toggle();
     ui->graphicsView->setFixedSize(screen_size_x, screen_size_y);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -30,8 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->about, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->InfoButtons, SIGNAL(triggered()), this, SLOT(info_buttons()));
     connect(ui->exit, SIGNAL(triggered()), this, SLOT(close()));
-
-
 }
 
 MainWindow::~MainWindow()
@@ -59,11 +56,20 @@ void MainWindow::create_model() {
         model_s.W = dmodel.Wvalue();
     }
 
-    manager.model = Model(model_s.L, model_s.H, model_s.W);
-    manager.active_object = &(manager.model);
-    ui->model->setChecked(true);
+    Model m(model_s.L, model_s.H, model_s.W);
+    add_model(m);
+    ui->graphicsView->setFocus();
 
     visualize_model();
+}
+
+void MainWindow::add_model(Model &model) {
+    QString str = QString("Груз ") + QString::number(manager.num_of_models());
+
+    ui->modelList->addItem(str);
+    manager.add_model(model);
+    ui->modelList->setCurrentRow(ui->modelList->count() - 1);
+    manager.active_object = &(manager.model_list[ui->modelList->currentRow()]);
 }
 
 void MainWindow::create_ship() {
@@ -142,17 +148,20 @@ void MainWindow::load_ship() {
 
 void MainWindow::visualize_model() {
 
-    for (Polygon& pol : manager.model.polygons) {
-        if (manager.check_visible_m()) {
-            QVector<QPoint> polyvector;
-            for (Point& point : pol.points) {
-                polyvector.push_back(manager.camera.to_screen(point));
-            }
+    for (Model& m : manager.model_list) {
+        for (Polygon& pol : m.polygons) {
+            if (manager.check_visible_m(m)) {
+                QVector<QPoint> polyvector;
+                for (Point& point : pol.points) {
+                    polyvector.push_back(manager.camera.to_screen(point));
+                }
 
-            QPolygon polygon(polyvector);
-            scene.addPolygon(polygon,QPen(Qt::black));
+                QPolygon polygon(polyvector);
+                scene.addPolygon(polygon,QPen(Qt::black));
+            }
         }
     }
+
 }
 
 void MainWindow::visualize_ship() {
@@ -174,13 +183,6 @@ void MainWindow::on_clearScr_clicked()
     scene.clear();
 }
 
-void MainWindow::on_model_toggled(bool checked)
-{
-    if (checked) {
-        manager.active_object = &(manager.model);
-    }
-}
-
 void MainWindow::on_ship_toggled(bool checked)
 {
     if (checked) {
@@ -190,38 +192,56 @@ void MainWindow::on_ship_toggled(bool checked)
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
     scene.clear();
+    ui->graphicsView->setFocus();
     if (manager.active_object != nullptr) {
         Point zero(manager.ship.get_center());
         switch(e->key()) {
 //			move
             case Qt::Key_Q :
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(0, 0, -move_speed);
+                    for (Model& m: manager.model_list) {
+                        m.move(0, 0, -move_speed);
+                    }
 					manager.ship.move(0, 0, -move_speed);
                 } else {
-                    manager.active_object->move(0, 0, -move_speed);
+                    manager.active_object->move(0, 0, move_speed);
                 }
                 break;
 
             case Qt::Key_E:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(0, 0, move_speed);
+                    for (Model& m: manager.model_list) {
+                        m.move(0, 0, move_speed);
+                    }
 					manager.ship.move(0, 0, move_speed);
                 } else {
-                    manager.active_object->move(0, 0, move_speed);
+                    manager.active_object->move(0, 0, -move_speed);
                 }
                 break;
             case Qt::Key_W:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(0, move_speed, 0);
+                    for (Model& m: manager.model_list){ 
+                        m.move(0, move_speed, 0);
+                    }
 					manager.ship.move(0, move_speed, 0);
                 } else {
-                    manager.active_object->move(0, -move_speed, 0);
+                    if (ui->models->isChecked()) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(0, -move_speed, 0);
+                        if(able_to_move(curr_model)) {
+                            manager.active_object->move(0, -move_speed, 0);
+                        }
+                    } else {
+                        manager.active_object->move(0, -move_speed, 0);
+                    }
+
                 }
                 break;
             case Qt::Key_S:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(0, -move_speed, 0);
+                    for (Model& m: manager.model_list){
+                        m.move(0, -move_speed, 0);
+                    }
 					manager.ship.move(0, -move_speed, 0);
                 } else {
                     manager.active_object->move(0, move_speed, 0);
@@ -230,7 +250,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 
             case Qt::Key_A :
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(move_speed, 0, 0);
+                    for (Model& m: manager.model_list){
+                        m.move(move_speed, 0, 0);
+                    }
 					manager.ship.move(move_speed, 0, 0);
                 } else {
                     manager.active_object->move(-move_speed, 0, 0);
@@ -239,7 +261,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 
             case Qt::Key_D:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.move(-move_speed, 0, 0);
+                    for (Model& m: manager.model_list){
+                        m.move(-move_speed, 0, 0);
+                    }
 					manager.ship.move(-move_speed, 0, 0);
                 } else {
                     manager.active_object->move(move_speed, 0, 0);
@@ -248,7 +272,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 //			rotate
             case Qt::Key_K:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(0, -rotate_speed, 0, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(0, -rotate_speed, 0, zero);
+                    }
 					manager.ship.rotate(0, -rotate_speed, 0, zero);
                 } else {
                     manager.active_object->rotate(0, rotate_speed, 0);
@@ -256,7 +282,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
             case Qt::Key_I:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(0, rotate_speed, 0, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(0, rotate_speed, 0, zero);
+                    }
 					manager.ship.rotate(0, rotate_speed, 0, zero);
                 } else {
                     manager.active_object->rotate(0, -rotate_speed, 0);
@@ -264,7 +292,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
             case Qt::Key_L:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(0, 0, -rotate_speed, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(0, 0, -rotate_speed, zero);
+                    }
 					manager.ship.rotate(0, 0, -rotate_speed, zero);
                 } else {
                     manager.active_object->rotate(0, 0, rotate_speed);
@@ -272,7 +302,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
             case Qt::Key_J:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(0, 0, rotate_speed, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(0, 0, rotate_speed, zero);
+                    }
 					manager.ship.rotate(0, 0, rotate_speed, zero);
                 } else {
                     manager.active_object->rotate(0, 0, -rotate_speed);
@@ -280,7 +312,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
             case Qt::Key_O:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(-rotate_speed, 0, 0, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(-rotate_speed, 0, 0, zero);
+                    }
 					manager.ship.rotate(-rotate_speed, 0, 0, zero);
                 } else {
                     manager.active_object->rotate(-rotate_speed, 0, 0);
@@ -288,7 +322,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                 break;
             case Qt::Key_U:
                 if (ui->cameraButton->isChecked()) {
-                    manager.model.rotate(rotate_speed, 0, 0, zero);
+                    for (Model& m: manager.model_list) {
+                        m.rotate(rotate_speed, 0, 0, zero);
+                    }
+
 					manager.ship.rotate(rotate_speed, 0, 0, zero);
                 } else {
                     manager.active_object->rotate(rotate_speed, 0, 0);
@@ -306,10 +343,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
         }
     }
     manager.ship.setColor();
-    if (manager.model.insideShip(manager.ship) == true) {
-        manager.model.setColor(Qt::green);
-    } else {
-        manager.model.setColor(Qt::red);
+    for (Model& m: manager.model_list) {
+        if (m.insideShip(manager.ship) == true) {
+            m.setColor(Qt::green);
+        } else {
+            m.setColor(Qt::red);
+        }
     }
 
     if (ui->DrawBox->isChecked()) {
@@ -410,23 +449,25 @@ void MainWindow::mydrawZBuffer() {
 }
 
 void MainWindow::transform_points_for_zbuffer(std::list<Polygon>& transformed_polygons) {
-	for (Polygon& polygon : manager.model.polygons) {
-		for (unsigned i = 2; i < polygon.points.size(); ++i) {
-			Polygon transformed_polygon;
-			transformed_polygon.polygon_color = polygon.polygon_color;
+    for (Model& m: manager.model_list) {
+        for (Polygon& polygon : m.polygons) {
+            for (unsigned i = 2; i < polygon.points.size(); ++i) {
+                Polygon transformed_polygon;
+                transformed_polygon.polygon_color = polygon.polygon_color;
 
-			transformed_polygon.points.push_back(polygon.points[0]);
-			transformed_polygon.points.push_back(polygon.points[i - 1]);
-			transformed_polygon.points.push_back(polygon.points[i]);
+                transformed_polygon.points.push_back(polygon.points[0]);
+                transformed_polygon.points.push_back(polygon.points[i - 1]);
+                transformed_polygon.points.push_back(polygon.points[i]);
 
-            for (Point& point : transformed_polygon.points) {
-                point = manager.camera.to_screen_3d(point);
+                for (Point& point : transformed_polygon.points) {
+                    point = manager.camera.to_screen_3d(point);
+                }
+
+                transformed_polygon.setup_flatness();
+
+                transformed_polygons.push_back(transformed_polygon);
             }
-
-            transformed_polygon.setup_flatness();
-
-			transformed_polygons.push_back(transformed_polygon);
-		}
+        }
     }
 
 
@@ -455,10 +496,12 @@ void MainWindow::transform_points_for_zbuffer(std::list<Polygon>& transformed_po
 void MainWindow::on_DrawBox_toggled()
 {
     manager.ship.setColor();
-    if (manager.model.insideShip(manager.ship) == true) {
-        manager.model.setColor(Qt::green);
-    } else {
-        manager.model.setColor(Qt::red);
+    for (Model& m: manager.model_list) {
+        if (m.insideShip(manager.ship) == true) {
+            m.setColor(Qt::green);
+        } else {
+            m.setColor(Qt::red);
+        }
     }
 
     mydrawZBuffer();
@@ -490,12 +533,47 @@ void MainWindow::updateSliderBPos(int value) {
     move_speed = value;
 }
 
+void MainWindow::on_modelList_currentRowChanged(int currentRow)
+{
+    manager.active_object = &(manager.model_list[currentRow]);
+    ui->graphicsView->setFocus();
 
-//void MainWindow::on_horizontalSlider_sliderMoved() {
-//    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
-//                ui->label_2, SLOT(setValue(int)));
-//    disconnect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
-//                ui->label_2, SLOT(setValue(int)));
-//    move_speed = ui->label_2->text().toInt();
-//}
+    ui->models->setChecked(true);
+}
 
+void MainWindow::on_modelList_clicked(const QModelIndex &index)
+{
+    manager.active_object = &(manager.model_list[index.row()]);
+    ui->graphicsView->setFocus();
+
+    ui->models->setChecked(true);
+}
+
+void MainWindow::on_models_toggled(bool checked)
+{
+    if (checked) {
+        if (manager.model_list.empty()) {
+            manager.active_object = nullptr;
+        } else {
+            manager.active_object = &(manager.model_list[ui->modelList->currentRow()]);
+        }
+    }
+}
+
+bool MainWindow::able_to_move(Model &new_model) {
+    for (int i = 0; i < manager.model_list.size(); i++) {
+        if (i != ui->modelList->currentRow()) {
+            for (const Polygon& new_pol: new_model.polygons) {
+                for (const Polygon& pol: manager.model_list[i].polygons) {
+                    bool check = pol.infront(new_model.get_center());
+                    for (const Point& new_p: new_pol.points) {
+                        if (new_pol.infront(new_p) != check) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}

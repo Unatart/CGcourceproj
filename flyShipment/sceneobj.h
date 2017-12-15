@@ -1,17 +1,19 @@
 #ifndef SCENEOBJ_H
 #define SCENEOBJ_H
 
+#include <vector>
+#include "polygon.h"
 #include "point.h"
 
 class SceneObject {
-    public:
-        virtual void move(double dx, double dy, double dz) = 0;
+public:
+    virtual void move(double dx, double dy, double dz) = 0;
 
-        virtual void rotate(double dxy, double dyz, double dzx) = 0;
-        virtual void resize(double k) = 0;
+    virtual void rotate(double dxy, double dyz, double dzx) = 0;
+    virtual void resize(double k) = 0;
 
-        virtual void rotate(double dxy, double dyz, double dzx, const Point& center) = 0;
-        virtual void resize(double k, const Point& center) = 0;
+    virtual void rotate(double dxy, double dyz, double dzx, const Point& center) = 0;
+    virtual void resize(double k, const Point& center) = 0;
 };
 
 #endif // SCENEOBJ_H
