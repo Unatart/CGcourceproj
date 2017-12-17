@@ -12,6 +12,10 @@ class Flatness
 
         Point normal() const;
 
+        Point crossline_with_other(const Flatness& other) const;
+
+        Point some_point_with_other(const Flatness& other) const;
+
         double a;
         double b;
         double c;

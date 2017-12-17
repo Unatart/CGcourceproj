@@ -60,7 +60,16 @@ void MainWindow::create_model() {
     add_model(m);
     ui->graphicsView->setFocus();
 
-    visualize_model();
+    manager.ship.setColor();
+    for (Model& m: manager.model_list) {
+        if (m.insideShip(manager.ship) == true) {
+            m.setColor(Qt::green);
+        } else {
+            m.setColor(Qt::red);
+        }
+    }
+
+    mydrawZBuffer();
 }
 
 void MainWindow::add_model(Model &model) {
@@ -87,7 +96,9 @@ void MainWindow::create_ship() {
     manager.active_object = &(manager.ship);
     ui->ship->setChecked(true);
 
-    visualize_ship();
+    manager.ship.setColor();
+
+    mydrawZBuffer();
 }
 
 void MainWindow::load_model() {
@@ -191,6 +202,7 @@ void MainWindow::on_ship_toggled(bool checked)
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
+    auto start = std::chrono::high_resolution_clock::now();
     scene.clear();
     ui->graphicsView->setFocus();
     if (manager.active_object != nullptr) {
@@ -204,7 +216,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.move(0, 0, -move_speed);
                 } else {
-                    manager.active_object->move(0, 0, move_speed);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(0, 0, move_speed);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->move(0, 0, move_speed);
+                        }
+                    } else {
+                        manager.active_object->move(0, 0, move_speed);
+                    }
                 }
                 break;
 
@@ -213,22 +233,30 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.move(0, 0, move_speed);
                     }
-					manager.ship.move(0, 0, move_speed);
+                    manager.ship.move(0, 0, move_speed);
                 } else {
-                    manager.active_object->move(0, 0, -move_speed);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(0, 0, -move_speed);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->move(0, 0, -move_speed);
+                        }
+                    } else {
+                        manager.active_object->move(0, 0, -move_speed);
+                    }
                 }
                 break;
             case Qt::Key_W:
                 if (ui->cameraButton->isChecked()) {
-                    for (Model& m: manager.model_list){ 
+                    for (Model& m: manager.model_list){
                         m.move(0, move_speed, 0);
                     }
-					manager.ship.move(0, move_speed, 0);
+                    manager.ship.move(0, move_speed, 0);
                 } else {
-                    if (ui->models->isChecked()) {
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(0, -move_speed, 0);
-                        if(able_to_move(curr_model)) {
+                        if (!able_to_move(curr_model)) {
                             manager.active_object->move(0, -move_speed, 0);
                         }
                     } else {
@@ -244,7 +272,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.move(0, -move_speed, 0);
                 } else {
-                    manager.active_object->move(0, move_speed, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(0, move_speed, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->move(0, move_speed, 0);
+                        }
+                    } else {
+                        manager.active_object->move(0, move_speed, 0);
+                    }
                 }
                 break;
 
@@ -255,7 +291,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.move(move_speed, 0, 0);
                 } else {
-                    manager.active_object->move(-move_speed, 0, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(-move_speed, 0, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->move(-move_speed, 0, 0);
+                        }
+                    } else {
+                        manager.active_object->move(-move_speed, 0, 0);
+                    }
                 }
                 break;
 
@@ -266,7 +310,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.move(-move_speed, 0, 0);
                 } else {
-                    manager.active_object->move(move_speed, 0, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.move(move_speed, 0, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->move(move_speed, 0, 0);
+                        }
+                    } else {
+                        manager.active_object->move(move_speed, 0, 0);
+                    }
                 }
                 break;
 //			rotate
@@ -277,7 +329,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.rotate(0, -rotate_speed, 0, zero);
                 } else {
-                    manager.active_object->rotate(0, rotate_speed, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(0, rotate_speed, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(0, rotate_speed, 0);
+                        }
+                    } else {
+                        manager.active_object->rotate(0, rotate_speed, 0);
+                    }
                 }
                 break;
             case Qt::Key_I:
@@ -287,7 +347,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.rotate(0, rotate_speed, 0, zero);
                 } else {
-                    manager.active_object->rotate(0, -rotate_speed, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(0, -rotate_speed, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(0, -rotate_speed, 0);
+                        }
+                    } else {
+                        manager.active_object->rotate(0, -rotate_speed, 0);
+                    }
                 }
                 break;
             case Qt::Key_L:
@@ -297,7 +365,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.rotate(0, 0, -rotate_speed, zero);
                 } else {
-                    manager.active_object->rotate(0, 0, rotate_speed);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(0, 0, rotate_speed);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(0, 0, rotate_speed);
+                        }
+                    } else {
+                        manager.active_object->rotate(0, 0, rotate_speed);
+                    }
                 }
                 break;
             case Qt::Key_J:
@@ -307,7 +383,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.rotate(0, 0, rotate_speed, zero);
                 } else {
-                    manager.active_object->rotate(0, 0, -rotate_speed);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(0, 0, -rotate_speed);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(0, 0, -rotate_speed);
+                        }
+                    } else {
+                        manager.active_object->rotate(0, 0, -rotate_speed);
+                    }
                 }
                 break;
             case Qt::Key_O:
@@ -317,7 +401,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
 					manager.ship.rotate(-rotate_speed, 0, 0, zero);
                 } else {
-                    manager.active_object->rotate(-rotate_speed, 0, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(-rotate_speed, 0, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(-rotate_speed, 0, 0);
+                        }
+                    } else {
+                        manager.active_object->rotate(-rotate_speed, 0, 0);
+                    }
                 }
                 break;
             case Qt::Key_U:
@@ -328,7 +420,15 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 
 					manager.ship.rotate(rotate_speed, 0, 0, zero);
                 } else {
-                    manager.active_object->rotate(rotate_speed, 0, 0);
+                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                        Model curr_model = manager.model_list[ui->modelList->currentRow()];
+                        curr_model.rotate(rotate_speed, 0, 0);
+                        if (!able_to_move(curr_model)) {
+                            manager.active_object->rotate(rotate_speed, 0, 0);
+                        }
+                    } else {
+                        manager.active_object->rotate(rotate_speed, 0, 0);
+                    }
                 }
                 break;
 //			resize
@@ -350,13 +450,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             m.setColor(Qt::red);
         }
     }
+    mydrawZBuffer();
 
-    if (ui->DrawBox->isChecked()) {
-        mydrawZBuffer();
-    } else {
-        visualize_model();
-        visualize_ship();
-    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    std::cout << time.count() << std::endl;
 }
 
 void MainWindow::mydrawZBuffer() {
@@ -492,21 +591,6 @@ void MainWindow::transform_points_for_zbuffer(std::list<Polygon>& transformed_po
     }
 }
 
-
-void MainWindow::on_DrawBox_toggled()
-{
-    manager.ship.setColor();
-    for (Model& m: manager.model_list) {
-        if (m.insideShip(manager.ship) == true) {
-            m.setColor(Qt::green);
-        } else {
-            m.setColor(Qt::red);
-        }
-    }
-
-    mydrawZBuffer();
-}
-
 void MainWindow::on_ModelButton_clicked()
 {
     create_model();
@@ -517,21 +601,11 @@ void MainWindow::on_ShipButton_clicked()
     create_ship();
 }
 
-void MainWindow::on_DrawBox_clicked()
-{
-    if (ui->DrawBox->isChecked()) {
-        mydrawZBuffer();
-    } else {
-        scene.clear();
-        visualize_model();
-        visualize_ship();
-    }
-}
-
 void MainWindow::updateSliderBPos(int value) {
     ui->label_2->setText(QString("%1").arg(value));
     move_speed = value;
 }
+
 
 void MainWindow::on_modelList_currentRowChanged(int currentRow)
 {
@@ -560,20 +634,26 @@ void MainWindow::on_models_toggled(bool checked)
     }
 }
 
-bool MainWindow::able_to_move(Model &new_model) {
+bool MainWindow::Inters(float min1, float max1, float min2, float max2) {
+    if (min1 > max2)
+        return false;
+    if (max1 < min2)
+        return false;
+    return true;
+}
+
+
+bool MainWindow::able_to_move(Model &model) {
     for (int i = 0; i < manager.model_list.size(); i++) {
         if (i != ui->modelList->currentRow()) {
-            for (const Polygon& new_pol: new_model.polygons) {
-                for (const Polygon& pol: manager.model_list[i].polygons) {
-                    bool check = pol.infront(new_model.get_center());
-                    for (const Point& new_p: new_pol.points) {
-                        if (new_pol.infront(new_p) != check) {
-                            return false;
-                        }
-                    }
-                }
-            }
+            if (!Inters(model.min_x(), model.max_x(), manager.model_list[i].min_x(), manager.model_list[i].max_x()))
+                return false;
+            if (!Inters(model.min_y(), model.max_y(), manager.model_list[i].min_y(), manager.model_list[i].max_y()))
+                return false;
+            if (!Inters(model.min_z(), model.max_z(), manager.model_list[i].min_z(), manager.model_list[i].max_z()))
+                return false;
         }
     }
     return true;
 }
+

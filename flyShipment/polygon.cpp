@@ -152,3 +152,80 @@ double Polygon::max_y() const {
     }
     return max_y;
 }
+
+bool Polygon::operator ==(const Polygon& other) const {
+    if (points.size() != other.points.size()) {
+        return false;
+    }
+    auto it1 = points.cbegin();
+    auto it2 = other.points.cbegin();
+    while (it1 != points.cend()) {
+        if (*it1 != *it2) {
+            return false;
+        }
+        ++it1;
+        ++it2;
+    }
+    return false;
+}
+
+bool Polygon::operator !=(const Polygon& other) const {
+    return !(*this == other);
+}
+
+
+bool Polygon::cross(const Point& begin_point, const Point& end_point) const {
+
+    Point check_vector(end_point - begin_point);
+
+    auto it = points.crbegin();
+    auto it1 = points.cbegin();
+
+    Point edge_vector((*it1) - (*it));
+    Point cross_vector((*it) - begin_point);
+
+    Point vec1(edge_vector * cross_vector);
+    double h = vec1.distance_zero();
+    Point vec2(edge_vector * check_vector);
+    double k = vec2.distance_zero();
+
+    if (h < 1e-4 || k < 1e-4) {
+        return false;
+    }
+
+    int mark = 1;
+    if (vec1.scalar(vec2) < 0) {
+        mark = -1;
+    }
+
+    Point cross_point(begin_point + check_vector * (mark * h / k));
+    if (it->distance(cross_point) <= it->distance(*it1)) {
+        return true;
+    }
+
+    for (auto it2 = it1 + 1; it2 != points.cend(); ++it2, ++it1) {
+        edge_vector = ((*it2) - (*it1));
+        cross_vector = ((*it1) - begin_point);
+
+        vec1 = (edge_vector * cross_vector);
+        h = vec1.distance_zero();
+
+        vec2 = (edge_vector * check_vector);
+        k = vec2.distance_zero();
+
+        if (h < 1e-4 || k < 1e-4) {
+            return false;
+        }
+
+        int mark = 1;
+        if (vec1.scalar(vec2) < 0) {
+            mark = -1;
+        }
+
+        cross_point = (begin_point + check_vector * (mark * h / k));
+        if (it1->distance(cross_point) <= it1->distance(*it2)) {
+            return true;
+        }
+    }
+    return false;
+}

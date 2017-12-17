@@ -36,7 +36,8 @@ SOURCES += \
         dialogship.cpp \
         manager.cpp \
     zbuffer.cpp \
-    flatness.cpp
+    flatness.cpp \
+    sceneobj.cpp
 
 HEADERS += \
         mainwindow.h \

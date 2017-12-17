@@ -30,6 +30,10 @@ public:
     double min_y() const;
     double max_y() const;
 
+    bool operator ==(const Polygon& other) const;
+    bool operator !=(const Polygon& other) const;
+
+    bool cross(const Point& begin_point, const Point& end_point) const;
 
     Flatness flatness;
 };

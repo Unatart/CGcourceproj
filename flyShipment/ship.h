@@ -14,24 +14,17 @@ struct ship_sizes {
 
 class Ship : public SceneObject{
 public:
+
+    Ship() = default;
+    Ship(const Ship& other) = default;
+
     void createShip(int L, int H, int Wt, int Wb);
-    Point get_center();
     void setColor();
 
-    void move(double dx, double dy, double dz);
-
-    void rotate(double dxy, double dyz, double dzx);
-    void resize(double k);
-
-    void rotate(double dxy, double dyz, double dzx, const Point& center);
-    void resize(double k, const Point& center);
-
-    std::vector<Polygon> polygons;
     Point front_vector;
 
 private:
     ship_sizes ship_size;
-    Point center;
     Point front;
 
 };

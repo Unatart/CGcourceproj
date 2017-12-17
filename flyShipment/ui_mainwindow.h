@@ -13,7 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -47,16 +47,17 @@ public:
     QPushButton *ShipButton;
     QPushButton *ModelButton;
     QSpacerItem *verticalSpacer;
+    QFrame *line;
     QLabel *label_3;
     QRadioButton *ship;
     QRadioButton *cameraButton;
     QRadioButton *models;
-    QLabel *label_4;
     QListWidget *modelList;
+    QFrame *line_2;
     QLabel *label;
     QLabel *label_2;
     QSlider *horizontalSlider;
-    QCheckBox *DrawBox;
+    QFrame *line_3;
     QSpacerItem *verticalSpacer_2;
     QPushButton *clearScr;
     QGraphicsView *graphicsView;
@@ -114,6 +115,13 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        line = new QFrame(verticalLayoutWidget);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout->addWidget(line);
+
         label_3 = new QLabel(verticalLayoutWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         QFont font2;
@@ -147,16 +155,18 @@ public:
 
         verticalLayout->addWidget(models);
 
-        label_4 = new QLabel(verticalLayoutWidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
-
-        verticalLayout->addWidget(label_4);
-
         modelList = new QListWidget(verticalLayoutWidget);
         modelList->setObjectName(QStringLiteral("modelList"));
         modelList->setEnabled(true);
 
         verticalLayout->addWidget(modelList);
+
+        line_2 = new QFrame(verticalLayoutWidget);
+        line_2->setObjectName(QStringLiteral("line_2"));
+        line_2->setFrameShape(QFrame::HLine);
+        line_2->setFrameShadow(QFrame::Sunken);
+
+        verticalLayout->addWidget(line_2);
 
         label = new QLabel(verticalLayoutWidget);
         label->setObjectName(QStringLiteral("label"));
@@ -186,11 +196,12 @@ public:
 
         verticalLayout->addWidget(horizontalSlider);
 
-        DrawBox = new QCheckBox(verticalLayoutWidget);
-        DrawBox->setObjectName(QStringLiteral("DrawBox"));
-        DrawBox->setFont(font1);
+        line_3 = new QFrame(verticalLayoutWidget);
+        line_3->setObjectName(QStringLiteral("line_3"));
+        line_3->setFrameShape(QFrame::HLine);
+        line_3->setFrameShadow(QFrame::Sunken);
 
-        verticalLayout->addWidget(DrawBox);
+        verticalLayout->addWidget(line_3);
 
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -240,11 +251,9 @@ public:
         label_3->setText(QApplication::translate("MainWindow", "\320\220\320\272\321\202\320\270\320\262\320\275\321\213\320\271 \320\276\320\261\321\212\320\265\320\272\321\202:", Q_NULLPTR));
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         cameraButton->setText(QApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\320\260", Q_NULLPTR));
-        models->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213", Q_NULLPTR));
-        label_4->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213:", Q_NULLPTR));
+        models->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213:", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214 \320\264\320\262\320\270\320\266\320\265\320\275\320\270\321\217 \320\276\320\261\321\212\320\265\320\272\321\202\320\276\320\262", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "5", Q_NULLPTR));
-        DrawBox->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\272\321\200\320\260\321\201\320\270\321\202\321\214", Q_NULLPTR));
         clearScr->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \321\201\321\206\320\265\320\275\321\203", Q_NULLPTR));
         Info_menu->setTitle(QApplication::translate("MainWindow", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\321\217", Q_NULLPTR));
     } // retranslateUi

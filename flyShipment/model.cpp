@@ -56,19 +56,6 @@ Model::Model(int L, int H, int W) {
     center.set(W/2, H/2, L/2);
 }
 
-Model::Model(const Model &other) {
-    this->model_size.H = other.model_size.H;
-    this->model_size.L = other.model_size.L;
-    this->model_size.W = other.model_size.W;
-
-    this->center = other.center;
-    this->polygons = other.polygons;
-}
-
-Point Model::get_center() {
-    return center;
-}
-
 Model& Model::operator =(const Model &other) {
     if (this == &other) {
         return *this;
@@ -101,118 +88,6 @@ void Model::setColor(QColor color) {
 			p.polygon_color = QColor(0, 155 + 100 * measure, 0);\
         }
     }
-
-//    if (color == Qt::red) {
-//        auto rp = red_color_polygons.begin();
-//        auto p = polygons.begin();
-
-//            while (rp != red_color_polygons.end() && p != polygons.end()) {
-    //        if (!red_color_polygons.empty()) {
-//                p.polygon_color = rp.polygon_color;
-//            }
-//        }
-//        else {
-//            while (rp != red_color_polygons.end() && p != polygons.end()) {
-//                rp.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
-//                p.polygon_color = rp.polygon_color;
-//            } 
-//        }
-//    }
-
-//    if (color == Qt::green) {
-//        auto gp = green_color_polygons.begin();
-//        auto p = polygons.begin();
-
-//        if (!green_color_polygons.empty()) {
-//            while (gp != green_color_polygons.end() && p != polygons.end()) {
-//                p.polygon_color = gp.polygon_color;
-//            }
-//        }
-//        else {
-//            while (gp != green_color_polygons.end() && p != polygons.end()) {
-//                gp.polygon_color = QColor(255, rand()%(200 - 100 + 1) + 100, rand()%(200 - 100 + 1) + 100);
-//                p.polygon_color = gp.polygon_color;
-//            }
-//        }
-//    }
-}
-
-void Model::move(double dx, double dy, double dz) {
-    Point change(dx, dy, dz);
-
-    for(Polygon& pol : polygons) {
-        for (Point& point : pol.points) {
-            point += change;
-        }
-        pol.setup_flatness();
-    }
-
-    center += change;
-}
-
-void Model::rotate(double dxy, double dyz, double dzx) {
-
-    for(Polygon& pol : polygons) {
-        for (Point& point : pol.points) {
-            if (dxy != 0) {
-                point.rotate_dxy(dxy, center);
-            }
-            if (dyz != 0) {
-                point.rotate_dyz(dyz, center);
-            }
-            if (dzx != 0) {
-                point.rotate_dzx(dzx, center);
-            }
-        }
-        pol.setup_flatness();
-    }
-}
-
-void Model::resize(double k) {
-    for(Polygon& pol : polygons) {
-        for (Point& point : pol.points) {
-            point = center + (point - center) * k;
-        }
-        pol.setup_flatness();
-    }
-}
-
-void Model::rotate(double dxy, double dyz, double dzx, const Point& center) {
-    for(Polygon& pol : polygons) {
-        for (Point& point : pol.points) {
-            if (dxy != 0) {
-                point.rotate_dxy(dxy, center);
-            }
-            if (dyz != 0) {
-                point.rotate_dyz(dyz, center);
-            }
-            if (dzx != 0) {
-                point.rotate_dzx(dzx, center);
-            }
-        }
-        pol.setup_flatness();
-    }
-
-    if (dxy != 0) {
-        this->center.rotate_dxy(dxy, center);
-    }
-    if (dyz != 0) {
-        this->center.rotate_dyz(dyz, center);
-    }
-    if (dzx != 0) {
-        this->center.rotate_dzx(dzx, center);
-    }
-}
-
-void Model::resize(double k, const Point& center) {
-    for(Polygon& pol : polygons) {
-        for (Point& point : pol.points) {
-            point = center + (point - center) * k;
-        }
-        pol.setup_flatness();
-    }
-
-    this->center = center + (this->center - center) * k;
 }
 
 void Model::printModel() {
@@ -224,10 +99,10 @@ void Model::printModel() {
     }
 }
 
-bool Model::insideShip(Ship& plane) {
-    for(Polygon& plane_pol : plane.polygons) {
-        for(Polygon& pol : polygons) {
-            for (Point& point : pol.points) {
+bool Model::insideShip(const Ship& plane) const {
+    for(const Polygon& plane_pol : plane.polygons) {
+        for(const Polygon& pol : polygons) {
+            for (const Point& point : pol.points) {
                 if (plane_pol.infront(plane.get_center()) != plane_pol.infront(point)) {
                     return false;
                 }

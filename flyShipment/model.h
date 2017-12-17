@@ -18,29 +18,18 @@ public:
     Model() = default;
     Model(int L, int H, int W);
 
-    Model(const Model& other);
+    Model(const Model& other) = default;
     Model& operator =(const Model& other);
-    Point get_center();
 
     void setColor(QColor color);
 
-    bool insideShip(Ship &plane);
-
-    void move(double dx, double dy, double dz);
-
-    void rotate(double dxy, double dyz, double dzx);
-    void resize(double k);
-
-    void rotate(double dxy, double dyz, double dzx, const Point& center);
-    void resize(double k, const Point& center) ;
+    bool insideShip(const Ship &plane) const;
 
     void printModel();
 
-    std::vector<Polygon> polygons;
 
 private:
     sizes model_size;
-    Point center;
 };
 
 
