@@ -38,6 +38,3 @@ void DialogShip::on_acceptButton_clicked() {
     close();
 }
 
-void DialogShip::on_backButton_clicked() {
-    close();
-}

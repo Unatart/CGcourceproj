@@ -88,6 +88,8 @@ private slots:
 
     void updateSliderBPos(int value);
 
+    void on_delButton_clicked();
+
 private:
     Ui::MainWindow* ui;
 

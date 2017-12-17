@@ -47,16 +47,15 @@ public:
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *verticalSpacer;
     QPushButton *acceptButton;
-    QPushButton *backButton;
 
     void setupUi(QDialog *DialogShip)
     {
         if (DialogShip->objectName().isEmpty())
             DialogShip->setObjectName(QStringLiteral("DialogShip"));
-        DialogShip->resize(381, 373);
+        DialogShip->resize(358, 252);
         verticalLayoutWidget = new QWidget(DialogShip);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 20, 311, 331));
+        verticalLayoutWidget->setGeometry(QRect(30, 20, 311, 211));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -144,11 +143,6 @@ public:
 
         verticalLayout->addWidget(acceptButton);
 
-        backButton = new QPushButton(verticalLayoutWidget);
-        backButton->setObjectName(QStringLiteral("backButton"));
-
-        verticalLayout->addWidget(backButton);
-
 
         retranslateUi(DialogShip);
 
@@ -164,7 +158,6 @@ public:
         bottom_w->setText(QApplication::translate("DialogShip", "\320\250\320\270\321\200\320\270\320\275\320\260 \320\262\320\265\321\200\321\205. \320\276\321\201\320\275.", Q_NULLPTR));
         top_w->setText(QApplication::translate("DialogShip", "\320\250\320\270\321\200\320\270\320\275\320\260 \320\275\320\270\320\266\320\275. \320\276\321\201\320\275.", Q_NULLPTR));
         acceptButton->setText(QApplication::translate("DialogShip", "\320\237\321\200\320\270\320\275\321\217\321\202\321\214", Q_NULLPTR));
-        backButton->setText(QApplication::translate("DialogShip", "\320\236\321\202\320\274\320\265\320\275\320\260", Q_NULLPTR));
     } // retranslateUi
 
 };

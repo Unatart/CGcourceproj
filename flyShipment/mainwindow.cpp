@@ -39,11 +39,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::info_buttons() {
-    QMessageBox::information(this, "Help", "Some text");
+    QMessageBox::information(this, "Управление", "Управление осуществляется с помощью клавиш: WASD - вверх, влево, вниз, вправо, а так же с помощью клавиш QE - направление на камеру и от камеры, IJKL - вращение вокруг своей оси.");
 }
 
 void MainWindow::about() {
-    QMessageBox::information(this, "Help", "Some text");
+    QMessageBox::information(this, "О программе", "Программа моделирования погрузки грузов в фюзеляж самолета.");
 }
 
 void MainWindow::create_model() {
@@ -202,7 +202,7 @@ void MainWindow::on_ship_toggled(bool checked)
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-    auto start = std::chrono::high_resolution_clock::now();
+//    auto start = std::chrono::high_resolution_clock::now();
     scene.clear();
     ui->graphicsView->setFocus();
     if (manager.active_object != nullptr) {
@@ -452,10 +452,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     }
     mydrawZBuffer();
 
-    auto end = std::chrono::high_resolution_clock::now();
-    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+//    auto end = std::chrono::high_resolution_clock::now();
+//    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-    std::cout << time.count() << std::endl;
+//    std::cout << time.count() << std::endl;
 }
 
 void MainWindow::mydrawZBuffer() {
@@ -652,8 +652,42 @@ bool MainWindow::able_to_move(Model &model) {
                 return false;
             if (!Inters(model.min_z(), model.max_z(), manager.model_list[i].min_z(), manager.model_list[i].max_z()))
                 return false;
+            if (!Inters(manager.model_list[i].min_x(), manager.model_list[i].max_x(), model.min_x(), model.max_x()))
+                return false;
+            if (!Inters(manager.model_list[i].min_y(), manager.model_list[i].max_y(), model.min_y(), model.max_y()))
+                return false;
+            if (!Inters(manager.model_list[i].min_z(), manager.model_list[i].max_z(), model.min_z(), model.max_z()))
+                return false;
         }
     }
     return true;
 }
 
+
+void MainWindow::on_delButton_clicked()
+{
+    if (ui->modelList->currentItem()) {
+        manager.delete_model(ui->modelList->currentRow());
+        delete ui->modelList->takeItem(ui->modelList->currentRow());
+    }
+    ui->graphicsView->setFocus();
+    if (manager.model_list.empty()) {
+        manager.active_object = nullptr;
+    }
+    else {
+        manager.active_object = &(manager.model_list[ui->modelList->currentRow()]);
+    }
+
+    scene.clear();
+
+    ui->models->toggle();
+    manager.ship.setColor();
+    for (Model& m: manager.model_list) {
+        if (m.insideShip(manager.ship) == true) {
+            m.setColor(Qt::green);
+        } else {
+            m.setColor(Qt::red);
+        }
+    }
+    mydrawZBuffer();
+}

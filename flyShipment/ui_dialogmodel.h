@@ -42,13 +42,12 @@ public:
     QWidget *horizontalLayoutWidget_4;
     QHBoxLayout *horizontalLayout_4;
     QPushButton *acceptButton;
-    QPushButton *backButton;
 
     void setupUi(QDialog *DialogModel)
     {
         if (DialogModel->objectName().isEmpty())
             DialogModel->setObjectName(QStringLiteral("DialogModel"));
-        DialogModel->resize(362, 249);
+        DialogModel->resize(335, 249);
         verticalLayoutWidget = new QWidget(DialogModel);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(20, 30, 291, 121));
@@ -107,7 +106,7 @@ public:
 
         horizontalLayoutWidget_4 = new QWidget(DialogModel);
         horizontalLayoutWidget_4->setObjectName(QStringLiteral("horizontalLayoutWidget_4"));
-        horizontalLayoutWidget_4->setGeometry(QRect(130, 160, 211, 71));
+        horizontalLayoutWidget_4->setGeometry(QRect(60, 160, 211, 71));
         horizontalLayout_4 = new QHBoxLayout(horizontalLayoutWidget_4);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
@@ -115,11 +114,6 @@ public:
         acceptButton->setObjectName(QStringLiteral("acceptButton"));
 
         horizontalLayout_4->addWidget(acceptButton);
-
-        backButton = new QPushButton(horizontalLayoutWidget_4);
-        backButton->setObjectName(QStringLiteral("backButton"));
-
-        horizontalLayout_4->addWidget(backButton);
 
 
         retranslateUi(DialogModel);
@@ -135,7 +129,6 @@ public:
         label_2->setText(QApplication::translate("DialogModel", "\320\250\320\270\321\200\320\270\320\275\320\260", Q_NULLPTR));
         label_3->setText(QApplication::translate("DialogModel", "\320\222\321\213\321\201\320\276\321\202\320\260", Q_NULLPTR));
         acceptButton->setText(QApplication::translate("DialogModel", "\320\237\321\200\320\270\320\275\321\217\321\202\321\214", Q_NULLPTR));
-        backButton->setText(QApplication::translate("DialogModel", "\320\236\321\202\320\274\320\265\320\275\320\260", Q_NULLPTR));
     } // retranslateUi
 
 };

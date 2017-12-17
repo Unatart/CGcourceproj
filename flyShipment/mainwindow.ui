@@ -141,6 +141,18 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="delButton">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Удалить груз</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="Line" name="line_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

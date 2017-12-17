@@ -16,6 +16,7 @@ public:
     Manager();
 
     void add_model(const Model& model);
+    void delete_model(int index);
 
     bool check_visible_m(const Model& model) const;
     bool check_visible_s() const;

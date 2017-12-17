@@ -29,7 +29,6 @@ SOURCES += \
         model.cpp \
         ship.cpp \
         camera.cpp \
-        utils.cpp \
         point.cpp \
         polygon.cpp \
         dialogmodel.cpp \
@@ -44,7 +43,6 @@ HEADERS += \
         model.h \
         ship.h \
         camera.h \
-        utils.h \
         point.h \
         dialogmodel.h \
         dialogship.h \

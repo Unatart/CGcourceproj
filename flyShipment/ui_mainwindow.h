@@ -53,6 +53,7 @@ public:
     QRadioButton *cameraButton;
     QRadioButton *models;
     QListWidget *modelList;
+    QPushButton *delButton;
     QFrame *line_2;
     QLabel *label;
     QLabel *label_2;
@@ -161,6 +162,12 @@ public:
 
         verticalLayout->addWidget(modelList);
 
+        delButton = new QPushButton(verticalLayoutWidget);
+        delButton->setObjectName(QStringLiteral("delButton"));
+        delButton->setFont(font1);
+
+        verticalLayout->addWidget(delButton);
+
         line_2 = new QFrame(verticalLayoutWidget);
         line_2->setObjectName(QStringLiteral("line_2"));
         line_2->setFrameShape(QFrame::HLine);
@@ -252,6 +259,7 @@ public:
         ship->setText(QApplication::translate("MainWindow", "\320\244\321\216\320\267\320\265\320\273\321\217\320\266", Q_NULLPTR));
         cameraButton->setText(QApplication::translate("MainWindow", "\320\232\320\260\320\274\320\265\321\200\320\260", Q_NULLPTR));
         models->setText(QApplication::translate("MainWindow", "\320\223\321\200\321\203\320\267\321\213:", Q_NULLPTR));
+        delButton->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214 \320\263\321\200\321\203\320\267", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "\320\241\320\272\320\276\321\200\320\276\321\201\321\202\321\214 \320\264\320\262\320\270\320\266\320\265\320\275\320\270\321\217 \320\276\320\261\321\212\320\265\320\272\321\202\320\276\320\262", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "5", Q_NULLPTR));
         clearScr->setText(QApplication::translate("MainWindow", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214 \321\201\321\206\320\265\320\275\321\203", Q_NULLPTR));

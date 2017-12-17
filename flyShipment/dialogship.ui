@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>373</height>
+    <width>358</width>
+    <height>252</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>30</x>
      <y>20</y>
      <width>311</width>
-     <height>331</height>
+     <height>211</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -109,13 +109,6 @@
      <widget class="QPushButton" name="acceptButton">
       <property name="text">
        <string>Принять</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="backButton">
-      <property name="text">
-       <string>Отмена</string>
       </property>
      </widget>
     </item>
