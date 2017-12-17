@@ -214,12 +214,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.move(0, 0, -move_speed);
                     }
-					manager.ship.move(0, 0, -move_speed);
+                    manager.ship.move(0, 0, -move_speed);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(0, 0, move_speed);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(0, 0, move_speed);
                         }
                     } else {
@@ -235,10 +235,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
                     manager.ship.move(0, 0, move_speed);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(0, 0, -move_speed);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(0, 0, -move_speed);
                         }
                     } else {
@@ -253,10 +253,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     }
                     manager.ship.move(0, move_speed, 0);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(0, -move_speed, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(0, -move_speed, 0);
                         }
                     } else {
@@ -270,12 +270,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list){
                         m.move(0, -move_speed, 0);
                     }
-					manager.ship.move(0, -move_speed, 0);
+                    manager.ship.move(0, -move_speed, 0);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(0, move_speed, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(0, move_speed, 0);
                         }
                     } else {
@@ -289,12 +289,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list){
                         m.move(move_speed, 0, 0);
                     }
-					manager.ship.move(move_speed, 0, 0);
+                    manager.ship.move(move_speed, 0, 0);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(-move_speed, 0, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(-move_speed, 0, 0);
                         }
                     } else {
@@ -308,12 +308,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list){
                         m.move(-move_speed, 0, 0);
                     }
-					manager.ship.move(-move_speed, 0, 0);
+                    manager.ship.move(-move_speed, 0, 0);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.move(move_speed, 0, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->move(move_speed, 0, 0);
                         }
                     } else {
@@ -327,12 +327,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.rotate(0, -rotate_speed, 0, zero);
                     }
-					manager.ship.rotate(0, -rotate_speed, 0, zero);
+                    manager.ship.rotate(0, -rotate_speed, 0, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(0, rotate_speed, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(0, rotate_speed, 0);
                         }
                     } else {
@@ -345,12 +345,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.rotate(0, rotate_speed, 0, zero);
                     }
-					manager.ship.rotate(0, rotate_speed, 0, zero);
+                    manager.ship.rotate(0, rotate_speed, 0, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(0, -rotate_speed, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(0, -rotate_speed, 0);
                         }
                     } else {
@@ -363,12 +363,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.rotate(0, 0, -rotate_speed, zero);
                     }
-					manager.ship.rotate(0, 0, -rotate_speed, zero);
+                    manager.ship.rotate(0, 0, -rotate_speed, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(0, 0, rotate_speed);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(0, 0, rotate_speed);
                         }
                     } else {
@@ -381,12 +381,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.rotate(0, 0, rotate_speed, zero);
                     }
-					manager.ship.rotate(0, 0, rotate_speed, zero);
+                    manager.ship.rotate(0, 0, rotate_speed, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(0, 0, -rotate_speed);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(0, 0, -rotate_speed);
                         }
                     } else {
@@ -399,12 +399,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                     for (Model& m: manager.model_list) {
                         m.rotate(-rotate_speed, 0, 0, zero);
                     }
-					manager.ship.rotate(-rotate_speed, 0, 0, zero);
+                    manager.ship.rotate(-rotate_speed, 0, 0, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(-rotate_speed, 0, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(-rotate_speed, 0, 0);
                         }
                     } else {
@@ -418,12 +418,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
                         m.rotate(rotate_speed, 0, 0, zero);
                     }
 
-					manager.ship.rotate(rotate_speed, 0, 0, zero);
+                    manager.ship.rotate(rotate_speed, 0, 0, zero);
                 } else {
-                    if (ui->models->isChecked() && manager.model_list.size() != 1) {
+                    if (ui->models->isChecked()) {
                         Model curr_model = manager.model_list[ui->modelList->currentRow()];
                         curr_model.rotate(rotate_speed, 0, 0);
-                        if (!able_to_move(curr_model)) {
+                        if (able_to_move(curr_model)) {
                             manager.active_object->rotate(rotate_speed, 0, 0);
                         }
                     } else {
@@ -644,20 +644,17 @@ bool MainWindow::Inters(float min1, float max1, float min2, float max2) {
 
 
 bool MainWindow::able_to_move(Model &model) {
-    for (int i = 0; i < manager.model_list.size(); i++) {
-        if (i != ui->modelList->currentRow()) {
-            if (!Inters(model.min_x(), model.max_x(), manager.model_list[i].min_x(), manager.model_list[i].max_x()))
+    for (unsigned i = 0; i < manager.model_list.size(); i++) {
+        if ((int) i != ui->modelList->currentRow()) {
+
+            if (Inters(model.min_x(), model.max_x(), manager.model_list[i].min_x(), manager.model_list[i].max_x())
+                    && Inters(model.min_y(), model.max_y(), manager.model_list[i].min_y(), manager.model_list[i].max_y())
+                    && Inters(model.min_z(), model.max_z(), manager.model_list[i].min_z(), manager.model_list[i].max_z())
+                    && Inters(manager.model_list[i].min_x(), manager.model_list[i].max_x(), model.min_x(), model.max_x())
+                    && Inters(manager.model_list[i].min_y(), manager.model_list[i].max_y(), model.min_y(), model.max_y())
+                    && Inters(manager.model_list[i].min_z(), manager.model_list[i].max_z(), model.min_z(), model.max_z())) {
                 return false;
-            if (!Inters(model.min_y(), model.max_y(), manager.model_list[i].min_y(), manager.model_list[i].max_y()))
-                return false;
-            if (!Inters(model.min_z(), model.max_z(), manager.model_list[i].min_z(), manager.model_list[i].max_z()))
-                return false;
-            if (!Inters(manager.model_list[i].min_x(), manager.model_list[i].max_x(), model.min_x(), model.max_x()))
-                return false;
-            if (!Inters(manager.model_list[i].min_y(), manager.model_list[i].max_y(), model.min_y(), model.max_y()))
-                return false;
-            if (!Inters(manager.model_list[i].min_z(), manager.model_list[i].max_z(), model.min_z(), model.max_z()))
-                return false;
+            }
         }
     }
     return true;

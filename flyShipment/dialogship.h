@@ -33,8 +33,6 @@ public:
 private slots:
     void on_acceptButton_clicked();
 
-    void on_backButton_clicked();
-
 private:
     Ui::DialogShip *ui;
 };

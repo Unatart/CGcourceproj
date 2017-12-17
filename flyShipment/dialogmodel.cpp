@@ -30,37 +30,5 @@ int DialogModel::Wvalue() {
 
 void DialogModel::on_acceptButton_clicked()
 {
-//    int L = (ui->lineEdit_L->text().toInt());
-//    int H = (ui->lineEdit_H->text().toInt());
-//    int W = (ui->lineEdit_W->text().toInt());
-
-
-//    QString fileName = QFileDialog::getSaveFileName(this,
-//                       tr("Save ship"), "",
-//                       tr("Txt file (*.txt);;All Files (*)"));
-
-
-//    QFile outFile(fileName);
-//    outFile.open(QIODevice::WriteOnly | QIODevice::Text);
-
-//    if(!outFile.isOpen()){
-//        std::cerr <<  "Error, unable to open file";
-//    }
-
-//    QTextStream outStream(&outFile);
-//    outStream << L;
-//    outStream << " ";
-//    outStream << H;
-//    outStream << " ";
-//    outStream << W;
-//    outStream << "\n";
-
-//    outFile.close();
-
-    close();
-}
-
-void DialogModel::on_backButton_clicked()
-{
     close();
 }
